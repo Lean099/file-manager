@@ -1,0 +1,15 @@
+.type{
+    width: 15px;
+  }
+  
+  .type p{
+    margin: 0;
+  }
+  
+  .name{
+    width: 60%;
+  }
+  
+  td p{
+    margin: 0;
+  }
