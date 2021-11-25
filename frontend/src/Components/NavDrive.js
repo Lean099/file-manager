@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faFileVideo, faFile, faFileImage, faFilter, faList, faTh, faSyncAlt} from '@fortawesome/free-solid-svg-icons'
 
-import {Context} from '../App'
+import {Context} from './FileManager'
 import {TYPES} from '../actions/viewAction'
 
 export const NavDrive = ()=>{

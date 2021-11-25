@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilePdf, faCaretDown, faDownload, faEye, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
-export const GridViewFiles2 = ()=>{
+export const GridViewFiles = ()=>{
   return(
     <div class="container" id="gridviewcont">
       <div class="row clearfix">

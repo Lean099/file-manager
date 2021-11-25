@@ -3,7 +3,7 @@ import {NavDrive} from './NavDrive'
 import {GridViewFiles} from './GridViewFiles'
 import {ListViewFiles} from './ListViewFiles'
 
-import {Context} from '../App'
+import {Context} from './FileManager'
 
 export const ListFiles = ()=>{
 
