@@ -2,6 +2,7 @@ import '../sidebar.css'
 import { useMediaQuery } from 'react-responsive'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown, faUserCog, faFile } from '@fortawesome/free-solid-svg-icons'
+import { LogoutButton } from './LogoutButton'
 
 export const SidebarProfile = ()=>{
 
@@ -14,6 +15,9 @@ export const SidebarProfile = ()=>{
         <h5 class="card-title text-center">Nombre Usuario</h5>
         <p class="text-center mb-1"><span class="badge bg-info text-dark">Backend Developer</span></p>
         <p class="font-monospace text-center mb-1">email@example.com</p>
+        <div class="d-grid gap-2 mb-1">
+          <LogoutButton/>
+        </div>
         {
           phone && <div class="d-grid gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#list-tab" aria-expanded="false" aria-controls="collapseExample">
           <button class="btn btn-dark btn-sm"><FontAwesomeIcon icon={faCaretDown}/></button>

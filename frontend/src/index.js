@@ -12,11 +12,9 @@ const client=process.env.REACT_APP_AUTH0_CLIENT_ID
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
       <Auth0ProviderWithHistory>
         <App />
       </Auth0ProviderWithHistory>
-    </BrowserRouter>  
   </React.StrictMode>,
   document.getElementById('root')
 );

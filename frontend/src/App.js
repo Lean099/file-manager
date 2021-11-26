@@ -4,17 +4,19 @@ import "./index.css";
 import './App.css';
 
 import React, { useReducer } from "react";
-import { Routes, Route } from "react-router-dom"
-import {Home} from './components/Home'
-import {FileManager} from './components/FileManager'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { Home } from './components/Home'
+import { FileManager } from './components/FileManager'
+import { FeedbackAccountDeleted } from './components/FeedbackAccountDeleted'
 import ProtectedRoute from "./auth/protected-route";
 
 function App() {
   return (
-    <Routes>
-      <Route exact path="/" element={<Home/>}/>
-      <ProtectedRoute exact path="/myDrive" element={<FileManager/>}/>
-    </Routes>
+    <Router>
+      <Route exact path="/" component={Home}/>
+      <ProtectedRoute exact path="/myDrive" component={FileManager}/>
+      <Route exact path="/feedbackAccountDeleted" component={FeedbackAccountDeleted}/>
+    </Router>
   );
 }
 
