@@ -13,5 +13,7 @@ export function viewReducer(state, action){
     case TYPES.LIST_VIEW:{
       return {grid_view: false, last_view: true}
     }
+    default:
+      return state
   }
-} 
+}

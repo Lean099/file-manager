@@ -17,7 +17,7 @@ export const ListViewFiles = ()=>{
         </thead>
         <tbody class="table-light">
           <tr>
-            <td scope="row" class="type"><p class="text-center"><FontAwesomeIcon icon={faFileImage}/></p></td>
+            <td class="type"><p class="text-center"><FontAwesomeIcon icon={faFileImage}/></p></td>
             <td class="name">Family.jpg</td>
             <td>Jun 04, 2021</td>
             <td>1000kb</td>
@@ -29,7 +29,7 @@ export const ListViewFiles = ()=>{
             </td>
           </tr>
           <tr>
-            <td scope="row" class="type"><p class="text-center"><FontAwesomeIcon icon={faFileVideo}/></p></td>
+            <td class="type"><p class="text-center"><FontAwesomeIcon icon={faFileVideo}/></p></td>
             <td class="name">holidays.mp4</td>
             <td>Sep 1, 2021</td>
             <td>500mb</td>
@@ -41,7 +41,7 @@ export const ListViewFiles = ()=>{
             </td>
           </tr>
           <tr>
-            <td scope="row" class="type"><p class="text-center"><FontAwesomeIcon icon={faFilePdf}/></p></td>
+            <td class="type"><p class="text-center"><FontAwesomeIcon icon={faFilePdf}/></p></td>
             <td class="name">work.pdf</td>
             <td>Sep 23, 2021</td>
             <td>2231kb</td>
@@ -53,7 +53,7 @@ export const ListViewFiles = ()=>{
             </td>
           </tr>
           <tr>
-            <td scope="row" class="type"><p class="text-center"><FontAwesomeIcon icon={faFileExcel}/></p></td>
+            <td class="type"><p class="text-center"><FontAwesomeIcon icon={faFileExcel}/></p></td>
             <td class="name">University.xls</td>
             <td>Nov 12, 2021</td>
             <td>1246kb</td>
@@ -65,7 +65,7 @@ export const ListViewFiles = ()=>{
             </td>
           </tr>
           <tr>
-            <td scope="row" class="type"><p class="text-center"><FontAwesomeIcon icon={faFilePowerpoint}/></p></td>
+            <td class="type"><p class="text-center"><FontAwesomeIcon icon={faFilePowerpoint}/></p></td>
             <td class="name">Uni_project.pptx</td>
             <td>Nov 30, 2021</td>
             <td>20mb</td>

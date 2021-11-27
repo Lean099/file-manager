@@ -14,18 +14,17 @@ export const FileManager = ()=>{
 		<Context.Provider value={{filesViewState: state, viewDispatch: dispatch}}>
 	      <div class="container" id="main">
 	        <div class="row" id="sub">
+
 	          <div class="col-3" id="a">
 	            <SidebarProfile/>
 	          </div>
-
 	          <div class="col-9" id="b">
-	    
 	              <div class="tab-content" id="nav-tabContent">
 	                <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list"><ListFiles/></div>
 	                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list"><Settings/></div>
 	              </div>
-	            
 	          </div>
+						
 	        </div>
 	      </div>
 	    </Context.Provider>

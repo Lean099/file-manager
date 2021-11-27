@@ -4,5 +4,5 @@ export const LoginButton = ()=>{
 
 	const { loginWithRedirect } = useAuth0();
 
-	return <button class="btn btn-dark btn-sm" onClick={() => loginWithRedirect()}>Sing Up/Sing In</button>;
+	return <button class="btn btn-dark btn-sm me-2" onClick={() => loginWithRedirect()}><p class="lead" id="leadP">Sign Up/Sing In</p></button>;
 }

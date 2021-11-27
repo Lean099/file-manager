@@ -21,12 +21,12 @@ export const NavDrive = ()=>{
 
           <div class="btn-group me-2">
             <button class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              All Items 
+              All Items
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#"><FontAwesomeIcon icon={faFile} className="me-1" />Documentos</a></li>
-              <li><a class="dropdown-item" href="#"><FontAwesomeIcon icon={faFileImage} className="me-1" />Imagenes</a></li>
-              <li><a class="dropdown-item" href="#"><FontAwesomeIcon icon={faFileVideo} className="me-1" />Videos</a></li>
+              <li><button class="dropdown-item btn"><FontAwesomeIcon icon={faFile} className="me-1" />Documentos</button></li>
+              <li><button class="dropdown-item btn"><FontAwesomeIcon icon={faFileImage} className="me-1" />Imagenes</button></li>
+              <li><button class="dropdown-item btn"><FontAwesomeIcon icon={faFileVideo} className="me-1" />Videos</button></li>
             </ul>
           </div>
 
@@ -35,8 +35,8 @@ export const NavDrive = ()=>{
               <FontAwesomeIcon icon={faFilter} className="me-1" />Sort
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Nuevos Primero</a></li>
-              <li><a class="dropdown-item" href="#">Viejos Primero</a></li>
+              <li><button class="dropdown-item btn">Nuevos Primero</button></li>
+              <li><button class="dropdown-item btn">Viejos Primero</button></li>
             </ul>
           </div>
 
@@ -52,9 +52,9 @@ export const NavDrive = ()=>{
             <button type="button" onClick={()=>{context.viewDispatch({type: TYPES.GRID_VIEW})}} class="btn btn-dark btn-sm"><FontAwesomeIcon icon={faTh}/></button>
             <button type="button" onClick={()=>{context.viewDispatch({type: TYPES.LIST_VIEW})}} class="btn btn-dark btn-sm"><FontAwesomeIcon icon={faList}/></button>
           </div>
-          
+
         </div>
-          
+
       </div>
     </div>
   )
