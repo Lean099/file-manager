@@ -4,12 +4,16 @@ import {BrowserRouter as Router} from "react-router-dom"
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Auth0ProviderWithHistory from "./auth/auth0-provider-with-history";
+import { ApolloProvider } from '@apollo/client'
+import { client } from './graphql/ApolloClient'
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Auth0ProviderWithHistory>
-        <App />
+        <ApolloProvider client={client}>
+          <App />
+        </ApolloProvider>
       </Auth0ProviderWithHistory>
     </Router>
   </React.StrictMode>,

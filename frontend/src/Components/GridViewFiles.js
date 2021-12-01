@@ -4,7 +4,7 @@ import { faFilePdf, faCaretDown, faDownload, faEye, faTrashAlt } from '@fortawes
 export const GridViewFiles = ()=>{
   return(
     <div class="container" id="gridviewcont">
-      <div class="row clearfix">
+      <div class="row clearfix pb-2">
 
           <div class="col-lg-3 col-md-4 col-sm-6 mt-2">
             <div class="card">

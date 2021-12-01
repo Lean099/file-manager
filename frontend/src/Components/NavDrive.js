@@ -1,19 +1,69 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faFileVideo, faFile, faFileImage, faFilter, faList, faTh, faSyncAlt} from '@fortawesome/free-solid-svg-icons'
 
 import {Context} from './FileManager'
 import {TYPES} from '../actions/viewAction'
 
+import { useMutation } from '@apollo/client'
+import { UPLOAD_IMAGE } from '../graphql/mutation'
+
 export const NavDrive = ()=>{
 
+  const [uploadImage, {data}] = useMutation(UPLOAD_IMAGE)
+  const [newImage, setNewImage] = useState(null)
   const context = useContext(Context);
+
+  const saveImageState = (e)=>{
+    setNewImage(e.target.files[0])
+  }
+
+  const resetInputFile = (e)=>{
+    document.getElementById("fileInput").value = "";
+  }
+
+  const sendFileBackend = (e)=>{
+    e.preventDefault()
+    // Las variables son los parametros que definimos en la query UPLOAD_IMAGE
+    uploadImage({variables: {
+      file: newImage,
+      id: "1"
+      // Tendremos que agregar otra variable donde lleve el id del Usuario que sube el archivo
+    }})
+  }
 
   return(
     <div class="row">
       <div class="d-flex justify-content-between my-2">
         <h4 class="">My Drive</h4>
-        <button class="btn btn-success btn-sm"><FontAwesomeIcon icon={faPlus} className="me-1"/>Upload New File</button>
+        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"><FontAwesomeIcon icon={faPlus} className="me-1"/>Upload New File</button>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New File</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="col">
+                      <label for="image" class="form-label">Select the file you want to upload.</label>
+                      <div class="input-group mt-2">
+                          <input type="file" class="form-control" onChange={saveImageState} id="fileInput" aria-describedby="img" aria-label="Upload"/>
+                          <button class="btn btn-dark" onClick={resetInputFile} type="button" id="fileInput">
+                              <div class="btn-close btn-close-white"></div>
+                          </button>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" onClick={sendFileBackend} class="btn btn-primary">Upload</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
       <div class="d-flex justify-content-between mb-2">
 

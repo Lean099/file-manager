@@ -1,18 +1,35 @@
 //import dotenv from 'dotenv'
 //dotenv.config()
 import express from 'express'
-import {graphqlHTTP} from 'express-graphql'
-import schema from './schemas/schema'
+import { ApolloServer } from 'apollo-server-express'
+import { graphqlUploadExpress } from 'graphql-upload';
+import { typeDefs } from './schemas/schema'
+import { resolvers } from './resolvers/resolver'
+import cors from 'cors'
 import './database'
-const app = express();
 
-app.set('port', process.env.PORT || 3001);
+async function main(){
 
-app.use('/graphql', graphqlHTTP({
-    graphiql: true,
-    schema: schema
-}))
+    const server = new ApolloServer({
+        typeDefs: typeDefs,
+        resolvers: resolvers
+    })
 
-app.listen(app.get('port'), ()=>{
-    console.log("Server on port ", app.get('port'))
-})
+    await server.start()
+
+    const app = express();
+
+    app.use(cors());
+
+    app.set('port', process.env.PORT || 3001);
+
+    app.use(graphqlUploadExpress());
+
+    server.applyMiddleware({ app });
+
+    await new Promise(r => app.listen(app.get('port'), r));
+
+    console.log(`🚀 Server ready at http://localhost:${app.get('port')}${server.graphqlPath}`);
+}
+
+main()
