@@ -26,16 +26,16 @@ const saveFileWithStream = ({ filename, mimetype, stream, id })=>{
             throw error
         }
         const url = path.join(__dirname,"../", "./public/"+files[0])
-        const result = await cloudinary.v2.uploader.upload(url)
+        const filenameWithoutExt = filename.replace(path.extname(filename), '')
+        const result = await cloudinary.v2.uploader.upload(url, {public_id: filenameWithoutExt})
         /* En este punto hacer para guardar datos sobre el archivo en la DB */
         // Del result tenemos que sacar original_filename, public_id, format y bytes.
         /* Modelo en Mongodb: name(original_filename), format(format), size(bytes), public_id(public_id)
         y en userProperty pondremos el id del usuario que esta subiendo el archivo, tambien podriamos
         usar la propiedad url del result para los que son de formato imagen o video */
         /*const user = await User.findOne({_id: id})
-        const urlFile = result?.url
-          if(typeof urlFile == 'undefined'){
-            const newFile = new File({
+          const urlFile = result?.url
+          const newFile = new File({
               name: result.original_filename,
               format: result.format,
               size: result.bytes,
@@ -43,16 +43,11 @@ const saveFileWithStream = ({ filename, mimetype, stream, id })=>{
               url: '',
               userProperty: user._id
             })
-        }else{
-          const newFile = new File({
-            name: result.original_filename,
-            format: result.format,
-            size: result.bytes,
-            public_id: result.public_id,
-            url: result.url,
-            userProperty: user._id
-          })
-        }*/
+          if(typeof urlFile == 'undefined'){
+            newFile.url=''
+          }else{
+            newFile.url=result.url
+          }*/
         const user = await User.findOne({_id: id})
         console.log(user)
         console.log(user._id)
@@ -112,9 +107,11 @@ export const resolvers = {
       return "The file has been deleted"
     },
     updateNameFile: async (_, args)=>{
-      const fileUpdated = await File.findOneAndUpdate({_id: args.idFile}, {name: args.nameFile})
-      // Usar la variable con el archivo modificado y actualizarlo desde cloudinary
-      return "The file has been updated"
+      const file = await File.findOne({_id: args.idFile})
+      const result = await cloudinary.v2.uploader.rename(file.public_id, args.nameFile)
+      return await File.findOneAndUpdate({_id: args.idFile}, {name: args.nameFile, public_id: result.public_id}, {new: true})
+      /* Para esos archivos que se suben que tienen la prop url o url_secure en el result, se va a tener
+      que actualizar tambien en la DB ya que al renombrar el public_id tambien cambia en la url */
     },
     updateEmailAndPassword: async (_, args)=>{
       async function hashPass(){
