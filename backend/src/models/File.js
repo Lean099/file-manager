@@ -5,7 +5,7 @@ const fileSchema = new Schema({
     format: String,
     size: Number,
     public_id: String,
-    userProperty: Schema.Types.ObjectId
+    userProperty: {type: Schema.Types.ObjectId, ref: 'User'}
 })
 
 export default model('File', fileSchema)

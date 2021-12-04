@@ -10,11 +10,11 @@ import { client } from './graphql/ApolloClient'
 ReactDOM.render(
   <React.StrictMode>
     <Router>
+    <ApolloProvider client={client}>
       <Auth0ProviderWithHistory>
-        <ApolloProvider client={client}>
-          <App />
-        </ApolloProvider>
+        <App />
       </Auth0ProviderWithHistory>
+      </ApolloProvider>
     </Router>
   </React.StrictMode>,
   document.getElementById('root')

@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faFileVideo, faFile, faFileImage, faFilter, faList, faTh, faSyncAlt} from '@fortawesome/free-solid-svg-icons'
+import { useAuth0 } from "@auth0/auth0-react";
 
 import {Context} from './FileManager'
 import {TYPES} from '../actions/viewAction'
@@ -10,6 +11,7 @@ import { UPLOAD_IMAGE } from '../graphql/mutation'
 
 export const NavDrive = ()=>{
 
+  const { user } = useAuth0()
   const [uploadImage, {data}] = useMutation(UPLOAD_IMAGE)
   const [newImage, setNewImage] = useState(null)
   const context = useContext(Context);
@@ -27,11 +29,13 @@ export const NavDrive = ()=>{
     // Las variables son los parametros que definimos en la query UPLOAD_IMAGE
     uploadImage({variables: {
       file: newImage,
-      id: "1"
+      id: user.sub.replace('auth0|', '')
       // Tendremos que agregar otra variable donde lleve el id del Usuario que sube el archivo
     }})
   }
 
+  console.log(user.sub.replace('auth0|', ''))
+  console.log(data)
   return(
     <div class="row">
       <div class="d-flex justify-content-between my-2">
