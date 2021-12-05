@@ -5,6 +5,7 @@ const fileSchema = new Schema({
     format: String,
     size: Number,
     public_id: String,
+    url: String,
     userProperty: {type: Schema.Types.ObjectId, ref: 'User'}
 })
 

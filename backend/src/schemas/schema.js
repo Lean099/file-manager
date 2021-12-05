@@ -1,5 +1,3 @@
-import {makeExecutableSchema} from '@graphql-tools/schema'
-import {resolvers} from '../resolvers/resolver'
 import { gql } from 'apollo-server-express'
 
 export const typeDefs = gql`
@@ -7,7 +5,6 @@ export const typeDefs = gql`
     scalar Upload
 
     type Query{
-        hello: String
         getUser(id: String!): User
         getUserFiles(id: String!): [File]
     }
@@ -16,12 +13,7 @@ export const typeDefs = gql`
         _id: ID
         username: String
         email: String
-        files: [InfoFiles]
-    }
-
-    type InfoFiles{
-        idFile: ID
-        public_id: String
+        files: [ID]
     }
 
     type File{
@@ -30,6 +22,7 @@ export const typeDefs = gql`
         format: String
         size: Int
         public_id: String
+        url: String
         userProperty: ID
     }
 

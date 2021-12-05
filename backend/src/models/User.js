@@ -5,7 +5,6 @@ const userSchema = new Schema({
     email: {type: String, required: true},
     password: {type: String, required: true},
     files: [{type: Schema.Types.ObjectId, ref: 'File'}]
-    //files: [{type: {_id: false, idFile: Schema.Types.ObjectId, public_id: String}, ref: 'File'}]
 })
 
 export default model('User', userSchema);
