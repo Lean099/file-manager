@@ -12,6 +12,9 @@ export const typeDefs = gql`
     type User{
         _id: ID
         username: String
+        occupation: String
+        avatar: String
+        avatar_public_id: String
         email: String
         files: [ID]
     }
@@ -30,6 +33,7 @@ export const typeDefs = gql`
         singleUpload(file: Upload, id: String): String
         deleteFile(idFile: String): String
         updateNameFile(idFile: String, nameFile: String): File
+        updatePersonalData(idUser: String, file: Upload, username: String, occupation: String): User
         updateEmailAndPassword(idUser: String, newEmail: String, newPass: String): User
     }
 

@@ -58,6 +58,24 @@ const saveFileWithStream = ({ filename, mimetype, stream, id })=>{
   )
 }
 
+const saveAvatarWithStream = ({ stream, filename, idUser, username, occupation })=>{
+  const pathL = path.join(__dirname,'../', `./public/${filename}`)
+  return new Promise((resolve, reject)=>{
+    stream
+      .pipe(createWriteStream(pathL))
+      .on("finish", async ()=>{
+        const user = readdir(path.join(__dirname,'../', './public'), (error, file)=>{
+          if(error){throw error}
+          const url = path.join(__dirname,"../", "./public/"+file[0])
+          const result = await cloudinary.v2.uploader.upload(url)
+          return await User.findOneAndUpdate({_id: idUser}, { username, occupation, avatar: result.url, avatar_public_id: result.public_id }, {new: true})
+        })
+        resolve(user)
+      })
+      .on("error", reject)
+  })
+}
+
 export const resolvers = {
     Upload: GraphQLUpload,
     Query: {
@@ -86,6 +104,17 @@ export const resolvers = {
       const file = await File.findOne({_id: args.idFile})
       const result = await cloudinary.v2.uploader.rename(file.public_id, args.nameFile)
       return await File.findOneAndUpdate({_id: args.idFile}, {name: args.nameFile, public_id: result.public_id, url: result.url}, {new: true})
+    },
+    updatePersonalData: async (_, args)=>{
+      if(args?.file){
+        const { filename, mimetype, createReadStream } = await args.file;
+        const { idUser, username, occupation } = await args
+        const stream = createReadStream()
+        return await saveAvatarWithStream({stream, filename, idUser, username, occupation})
+      }else{
+        const { idUser, username, occupation } = await args
+        return await User.findOneAndUpdate({_id: idUser}, {username: username, occupation: occupation}, {new: true})
+      }
     },
     updateEmailAndPassword: async (_, args)=>{
       function hashPass(){
