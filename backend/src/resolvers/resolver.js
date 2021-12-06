@@ -107,11 +107,13 @@ export const resolvers = {
     },
     updatePersonalData: async (_, args)=>{
       if(args?.file){
+        console.log("Dentro del if: ", args)
         const { filename, mimetype, createReadStream } = await args.file;
         const { idUser, username, occupation } = await args
         const stream = createReadStream()
         return await saveAvatarWithStream({stream, filename, idUser, username, occupation})
       }else{
+        console.log("Dentro del else: ", args)
         const { idUser, username, occupation } = await args
         return await User.findOneAndUpdate({_id: idUser}, {username: username, occupation: occupation}, {new: true})
       }
