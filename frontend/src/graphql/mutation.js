@@ -8,6 +8,12 @@ export const UPLOAD_IMAGE = gql`
 
 export const UPLOAD_IMAGE_PERSONAL_DATA = gql`
   mutation updatePersonalData($file: Upload, $id: String, $username: String, $occupation: String){
-  updatePersonalData(file: $file, idUser: $id, username: $username, occupation: $occupation)
+    updatePersonalData(file: $file, idUser: $id, username: $username, occupation: $occupation){
+      _id
+      username
+      occupation
+      avatar
+      avatar_public_id
+    }
   }
 `

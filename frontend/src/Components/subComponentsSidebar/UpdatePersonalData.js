@@ -1,20 +1,25 @@
 import { useState } from 'react'
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation } from '@apollo/client'
-import { UPLOAD_IMAGE_PERSONAL_DATA } from '../graphql/mutation'
+import { UPLOAD_IMAGE_PERSONAL_DATA } from '../../graphql/mutation'
 
 export const UpdatePersonalData = ()=>{
 
     const { user } = useAuth0()
-    const { uploadData, {data} } = useMutation(UPLOAD_IMAGE_PERSONAL_DATA)
+    const [ uploadData, {data} ] = useMutation(UPLOAD_IMAGE_PERSONAL_DATA)
     const [ avatar, setAvatar ] = useState(null)
     const [ personalData, setPersonalData ] = useState({ username: '', occupation: '' })
 
     const handleInput = (e)=>{
       setPersonalData({
         ...personalData,
-        [e.target.name] = e.target.value
+        [e.target.name] : e.target.value
       })
+    }
+
+    const resetInputFile = ()=>{
+      document.getElementById('avatar').value = ''
+      setAvatar(null)
     }
 
     const handleFile = (e)=>{
@@ -30,6 +35,10 @@ export const UpdatePersonalData = ()=>{
         occupation: personalData.occupation
       }})
     }
+
+    console.log(personalData)
+    console.log(avatar)
+    console.log(data)
 
     return(
       <div class="">
@@ -55,15 +64,15 @@ export const UpdatePersonalData = ()=>{
         <div class="mb-3">
           <label for="image" class="form-label">Profile Picture</label>                      
           <div class="input-group mt-2">
-            <input type="file" class="form-control" onChange={handleFile} name="avatar" id="img" aria-describedby="img" aria-label="Upload"/>
-            <button class="btn btn-dark" type="button" id="img">
+            <input type="file" class="form-control" onChange={handleFile} name="avatar" id="avatar" aria-describedby="img" aria-label="Upload"/>
+            <button class="btn btn-dark" onClick={resetInputFile} type="button" id="img">
               <div class="btn-close btn-close-white"></div>
             </button>
           </div>
         </div>
   
         <div class="d-grid gap-2">
-          <button class="btn btn-dark btn-sm" type="button">Update Data</button>
+          <button class="btn btn-dark btn-sm" onClick={sendData} type="button">Update Data</button>
         </div>
   
       </div>

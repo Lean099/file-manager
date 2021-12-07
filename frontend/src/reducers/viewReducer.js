@@ -1,6 +1,7 @@
 import {TYPES} from '../actions/viewAction'
 
 export const initialState = {
+  files: null,
   grid_view: true,
   list_view: false
 }

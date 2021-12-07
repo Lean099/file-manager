@@ -64,12 +64,22 @@ const saveAvatarWithStream = ({ stream, filename, idUser, username, occupation }
     stream
       .pipe(createWriteStream(pathL))
       .on("finish", async ()=>{
-        const user = readdir(path.join(__dirname,'../', './public'), (error, file)=>{
+        function getFilePath(pathDir, callback){
+          readdir(pathDir, async (error, file)=>{
+            if(error) return callback(error)
+            callback(null, path.join(__dirname,"../", "./public/"+file[0]))
+          })
+        }
+        const user = getFilePath(path.join(__dirname,'../', './public'), (error, file)=>{
+          const result = await cloudinary.v2.uploader.upload(file)
+          return await User.findOneAndUpdate({_id: idUser}, { username, occupation, avatar: result.url, avatar_public_id: result.public_id }, {new: true})
+        })
+        /*readdir(path.join(__dirname,'../', './public'), async (error, file)=>{
           if(error){throw error}
           const url = path.join(__dirname,"../", "./public/"+file[0])
           const result = await cloudinary.v2.uploader.upload(url)
           return await User.findOneAndUpdate({_id: idUser}, { username, occupation, avatar: result.url, avatar_public_id: result.public_id }, {new: true})
-        })
+        })*/
         resolve(user)
       })
       .on("error", reject)

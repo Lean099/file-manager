@@ -26,16 +26,12 @@ export const NavDrive = ()=>{
 
   const sendFileBackend = (e)=>{
     e.preventDefault()
-    // Las variables son los parametros que definimos en la query UPLOAD_IMAGE
     uploadImage({variables: {
       file: newImage,
       id: user.sub.replace('auth0|', '')
-      // Tendremos que agregar otra variable donde lleve el id del Usuario que sube el archivo
     }})
   }
 
-  console.log(user.sub.replace('auth0|', ''))
-  console.log(data)
   return(
     <div class="row">
       <div class="d-flex justify-content-between my-2">

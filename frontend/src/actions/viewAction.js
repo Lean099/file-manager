@@ -1,4 +1,5 @@
 export const TYPES = {
+    GET_FILES_USER: 'GET_FILES_USER',
     GRID_VIEW: 'GRID_VIEW',
     LIST_VIEW: 'LIST_VIEW'
   }

@@ -1,14 +1,26 @@
-import React, { useReducer } from "react";
-import {ListFiles} from './ListFiles'
-import {Settings} from './subComponentsSidebar/Settings'
-import {SidebarProfile} from './SidebarProfile'
+import React, { useReducer, useEffect } from "react";
+import { useQuery } from '@apollo/client'
+import { useAuth0 } from '@auth0/auth0-react'
+import { GET_USER_FILES } from '../graphql/query'
+import { ListFiles } from './ListFiles'
+import { Settings } from './subComponentsSidebar/Settings'
+import { SidebarProfile } from './SidebarProfile'
 
 import {initialState, viewReducer} from '../reducers/viewReducer'
+import { TYPES } from '../actions/viewAction'
 export const Context = React.createContext();
 
 export const FileManager = ()=>{
 
+	//const { user } = useAuth0()
+	//const { loading, error, data } = useQuery( GET_USER_FILES, { varaibles: { id: user.sub.replace('auth0|', '') } })
 	const [state, dispatch] = useReducer(viewReducer, initialState)
+
+	/*useEffect(()=>{
+		if(data){
+			dispatch({type: TYPES.GET_FILES_USER, payload: data})
+		}
+	}, [])*/
 
 	return(
 		<Context.Provider value={{filesViewState: state, viewDispatch: dispatch}}>
