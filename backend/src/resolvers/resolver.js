@@ -58,29 +58,39 @@ const saveFileWithStream = ({ filename, mimetype, stream, id })=>{
   )
 }
 
+function getFilePath(pathDir, callback){
+  readdir(pathDir, async (error, file)=>{
+    if(error) return callback(error)
+    callback(null, path.join(__dirname,"../", "./public/"+file[0]))
+  })
+}
+
+// Tambien fijarse para el caso en que me vengan los username y occupation vacios
 const saveAvatarWithStream = ({ stream, filename, idUser, username, occupation })=>{
   const pathL = path.join(__dirname,'../', `./public/${filename}`)
   return new Promise((resolve, reject)=>{
     stream
       .pipe(createWriteStream(pathL))
       .on("finish", async ()=>{
-        function getFilePath(pathDir, callback){
-          readdir(pathDir, async (error, file)=>{
-            if(error) return callback(error)
-            callback(null, path.join(__dirname,"../", "./public/"+file[0]))
-          })
-        }
-        const user = getFilePath(path.join(__dirname,'../', './public'), (error, file)=>{
+        const user = await getFilePath(path.join(__dirname,'../', './public'), async (error, file)=>{
+          const userFound = await User.findOne({_id: idUser})
           const result = await cloudinary.v2.uploader.upload(file)
-          return await User.findOneAndUpdate({_id: idUser}, { username, occupation, avatar: result.url, avatar_public_id: result.public_id }, {new: true})
+          if(userFound.avatar_public_id!==''){
+            await cloudinary.v2.uploader.destroy(userFound.avatar_public_id)
+          }
+          const userUpdated = await User.findOneAndUpdate({_id: idUser}, { username, occupation, avatar: result.url, avatar_public_id: result.public_id }, {new: true})
+          await unlink(file, (err)=>{
+            if(err){
+              console.log(err)
+            }else{
+              console.log('Avatar deleted')
+            }
+            return userUpdated
+          })
+          return userUpdated
         })
-        /*readdir(path.join(__dirname,'../', './public'), async (error, file)=>{
-          if(error){throw error}
-          const url = path.join(__dirname,"../", "./public/"+file[0])
-          const result = await cloudinary.v2.uploader.upload(url)
-          return await User.findOneAndUpdate({_id: idUser}, { username, occupation, avatar: result.url, avatar_public_id: result.public_id }, {new: true})
-        })*/
-        resolve(user)
+        console.log(user)
+        resolve('Personal Data Updated')
       })
       .on("error", reject)
   })
