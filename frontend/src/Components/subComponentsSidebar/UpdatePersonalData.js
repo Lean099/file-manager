@@ -36,10 +36,6 @@ export const UpdatePersonalData = ()=>{
       }})
     }
 
-    console.log(personalData)
-    console.log(avatar)
-    console.log(data)
-
     return(
       <div class="">
   

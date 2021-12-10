@@ -1,7 +1,15 @@
+import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilePdf, faCaretDown, faDownload, faEye, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
+import {Context} from './FileManager'
+import {TYPES} from '../actions/viewAction'
+
 export const GridViewFiles = ()=>{
+
+  const context = useContext(Context)
+
+  console.log(context)
   return(
     <div class="container" id="gridviewcont">
       <div class="row clearfix pb-2">

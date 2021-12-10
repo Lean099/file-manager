@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_USER = gql`
-	query getUser($id: String){
+	query getUser($id: String!){
 		getUser(id: $id){
 			_id
 			username
@@ -15,8 +15,8 @@ export const GET_USER = gql`
 `
 
 export const GET_USER_FILES = gql`
-	query getUserFiles($id: String){
-		getUserFiles(id: $id){
+	query getUserFiles($idFile: String!){
+		getUserFiles(id: $idFile){
 			_id
 			name
 			format

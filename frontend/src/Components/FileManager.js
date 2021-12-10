@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useContext } from "react";
 import { useQuery } from '@apollo/client'
 import { useAuth0 } from '@auth0/auth0-react'
 import { GET_USER_FILES } from '../graphql/query'
@@ -12,15 +12,16 @@ export const Context = React.createContext();
 
 export const FileManager = ()=>{
 
-	//const { user } = useAuth0()
-	//const { loading, error, data } = useQuery( GET_USER_FILES, { varaibles: { id: user.sub.replace('auth0|', '') } })
+	const { user } = useAuth0()
+	const { loading, error, data } = useQuery( GET_USER_FILES, { variables: { idFile: user.sub.replace('auth0|', '') } })
 	const [state, dispatch] = useReducer(viewReducer, initialState)
-
-	/*useEffect(()=>{
-		if(data){
-			dispatch({type: TYPES.GET_FILES_USER, payload: data})
+	const context = useContext(Context)
+	useEffect(()=>{
+		if(typeof data!=='undefined'){
+			
+			dispatch({type: TYPES.GET_FILES_USER, payload: data.getUserFiles})
 		}
-	}, [])*/
+	}, [data])
 
 	return(
 		<Context.Provider value={{filesViewState: state, viewDispatch: dispatch}}>
