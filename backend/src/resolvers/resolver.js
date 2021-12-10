@@ -65,32 +65,38 @@ function getFilePath(pathDir, callback){
   })
 }
 
-// Tambien fijarse para el caso en que me vengan los username y occupation vacios
-const saveAvatarWithStream = ({ stream, filename, idUser, username, occupation })=>{
+const saveAvatarWithStream = async ({ stream, filename, idUser, username, occupation })=>{
   const pathL = path.join(__dirname,'../', `./public/${filename}`)
   return new Promise((resolve, reject)=>{
     stream
       .pipe(createWriteStream(pathL))
       .on("finish", async ()=>{
-        const user = await getFilePath(path.join(__dirname,'../', './public'), async (error, file)=>{
+        getFilePath(path.join(__dirname,'../', './public'), async (error, file)=>{
           const userFound = await User.findOne({_id: idUser})
           const result = await cloudinary.v2.uploader.upload(file)
           if(userFound.avatar_public_id!==''){
             await cloudinary.v2.uploader.destroy(userFound.avatar_public_id)
           }
-          const userUpdated = await User.findOneAndUpdate({_id: idUser}, { username, occupation, avatar: result.url, avatar_public_id: result.public_id }, {new: true})
+          if(username==='' && occupation!==''){
+            const user = await User.findOneAndUpdate({_id: idUser}, { occupation, avatar: result.url, avatar_public_id: result.public_id }, {new: true})
+            resolve(user)
+          }else if(occupation==='' && username!==''){
+            const user = await User.findOneAndUpdate({_id: idUser}, { username, avatar: result.url, avatar_public_id: result.public_id }, {new: true})
+            resolve(user)
+          }else if(username==='' && occupation===''){
+            const user = await User.findOneAndUpdate({_id: idUser}, { avatar: result.url, avatar_public_id: result.public_id }, {new: true})
+            resolve(user)
+          }else{
+            const user = await User.findOneAndUpdate({_id: idUser}, { username, occupation, avatar: result.url, avatar_public_id: result.public_id }, {new: true}) 
+            resolve(user)
+          }
           await unlink(file, (err)=>{
-            if(err){
-              console.log(err)
-            }else{
+            if(err) throw err
               console.log('Avatar deleted')
-            }
-            return userUpdated
           })
-          return userUpdated
         })
-        console.log(user)
-        resolve('Personal Data Updated')
+
+        
       })
       .on("error", reject)
   })
@@ -127,15 +133,19 @@ export const resolvers = {
     },
     updatePersonalData: async (_, args)=>{
       if(args?.file){
-        console.log("Dentro del if: ", args)
         const { filename, mimetype, createReadStream } = await args.file;
         const { idUser, username, occupation } = await args
         const stream = createReadStream()
         return await saveAvatarWithStream({stream, filename, idUser, username, occupation})
       }else{
-        console.log("Dentro del else: ", args)
         const { idUser, username, occupation } = await args
-        return await User.findOneAndUpdate({_id: idUser}, {username: username, occupation: occupation}, {new: true})
+        if(username==='' && occupation!==''){
+          return await User.findOneAndUpdate({_id: idUser}, {occupation: occupation}, {new: true})
+        }else if(occupation==='' && username!==''){
+          return await User.findOneAndUpdate({_id: idUser}, {username: username}, {new: true})
+        }else{
+          return await User.findOneAndUpdate({_id: idUser}, {username: username, occupation: occupation}, {new: true})
+        }
       }
     },
     updateEmailAndPassword: async (_, args)=>{
