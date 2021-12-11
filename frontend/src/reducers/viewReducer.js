@@ -3,7 +3,9 @@ import {TYPES} from '../actions/viewAction'
 export const initialState = {
   files: [],
   email: '',
+  username: '',
   occupation: '',
+  avatar: '',
   grid_view: true,
   list_view: false
 }

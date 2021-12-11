@@ -1,5 +1,7 @@
 import { gql } from '@apollo/client'
 
+// Files
+
 export const UPLOAD_IMAGE = gql`
   mutation singleUpload($file: Upload, $id: String){
     singleUpload(file: $file, id: $id)
@@ -25,6 +27,7 @@ export const UPDATE_NAME_FILE = gql`
     }
   }
 `
+// User
 
 export const UPLOAD_IMAGE_PERSONAL_DATA = gql`
   mutation updatePersonalData($file: Upload, $id: String, $username: String, $occupation: String){
@@ -45,3 +48,10 @@ export const UPLOAD_EMAIL_AND_PASSWORD = gql`
     }
   }
 `
+
+export const DELETE_USER = gql`
+  mutation deleteUser($id: String){
+    deleteUser(idUser: $id)
+  }
+`
+

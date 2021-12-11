@@ -1,8 +1,24 @@
+import { useMutation } from "@apollo/client";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
+import { DELETE_USER } from "../../graphql/mutation";
+
 export const DeleteAccount = ()=>{
+
+    const [deleteUser, {data}] = useMutation(DELETE_USER)
+    const { user, logout } = useAuth0()
+
+    useEffect(()=>{
+      if(typeof data!=='undefined'){
+        logout({returnTo: '/feedbackAccountDeleted'})
+      }
+    })
 
     const sendDelete = (e)=>{
       e.preventDefault()
-      console.log("Enviado al servidor para que elimine al usuario...")
+      deleteUser({variables:{
+        id: user.sub.replace('auth0|', '')
+      }})
     }
   
     return(

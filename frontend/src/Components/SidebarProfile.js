@@ -1,20 +1,35 @@
 import '../sidebar.css'
+import { useContext, useEffect } from "react";
 import { useMediaQuery } from 'react-responsive'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown, faUserCog, faFile } from '@fortawesome/free-solid-svg-icons'
 import { LogoutButton } from './LogoutButton'
+import { useAuth0 } from "@auth0/auth0-react";
+import { useQuery } from "@apollo/client";
+import { GET_USER } from "../graphql/query";
+import { TYPES } from "../actions/viewAction";
+import { Context } from "./FileManager";
 
 export const SidebarProfile = ()=>{
+
+  const context = useContext(Context)
+  const { user } = useAuth0()
+  const { loading, error, data } = useQuery(GET_USER, {variables:{id: user.sub.replace('auth0|', '')}})
+  useEffect(()=>{
+    if(typeof data!=='undefined'){
+      context.viewDispatch({type: TYPES.SET_PERSONAL_DATA, payload: data.getUser})
+    }
+  }, [data])
 
   const phone = useMediaQuery({ query: '(max-width: 454px)' })
 
   return(
     <div class="card mt-1" id="side">
-      <img src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" class="mx-auto d-block" id="imgProfile"  alt="imgUser"/>
+      <img src={ context.filesViewState.avatar!=='' ? context.filesViewState.avatar : "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"} class="mx-auto d-block" id="imgProfile"  alt="imgUser"/>
       <div class="card-body">
-        <h5 class="card-title text-center">Nombre Usuario</h5>
-        <p class="text-center mb-1"><span class="badge bg-info text-dark">Backend Developer</span></p>
-        <p class="font-monospace text-center mb-1">email@example.com</p>
+        <h5 class="card-title text-center">{ context.filesViewState.username!=='' ? context.filesViewState.username : "UserExample" }</h5>
+        <p class="text-center mb-1"><span class="badge bg-info text-dark">{ context.filesViewState.occupation!=='' ? context.filesViewState.occupation : "OccupationExample" }</span></p>
+        <p class="font-monospace text-center mb-1">{ context.filesViewState.email!=='' ? context.filesViewState.email : "Example@mail.com" }</p>
         <div class="d-grid gap-2 mb-1">
           <LogoutButton/>
         </div>

@@ -1,6 +1,11 @@
 import { NavLink } from "react-router-dom";
+import { TYPES } from "../actions/viewAction";
+import { Context } from "./FileManager";
 
 export const FeedbackAccountDeleted = ()=>{
+
+    Context.viewDispatch({type: TYPES.RESET})
+
     return(
         <div className="container">
             <div className="card text-center my-4">

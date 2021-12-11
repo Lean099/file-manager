@@ -1,14 +1,23 @@
-import { useState } from 'react'
+import { useState, useContext, useEffect } from 'react'
+import { Context } from "../FileManager";
+import { TYPES } from "../../actions/viewAction";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation } from '@apollo/client'
 import { UPLOAD_IMAGE_PERSONAL_DATA } from '../../graphql/mutation'
 
 export const UpdatePersonalData = ()=>{
 
+    const context = useContext(Context)
     const { user } = useAuth0()
     const [ uploadData, {data} ] = useMutation(UPLOAD_IMAGE_PERSONAL_DATA)
     const [ avatar, setAvatar ] = useState(null)
     const [ personalData, setPersonalData ] = useState({ username: '', occupation: '' })
+
+    useEffect(()=>{
+      if(typeof data!=='undefined'){
+        context.viewDispatch({type: TYPES.SET_AVATAR_USERNAME_OCCUPATION, payload: data})
+      }
+    }, [data])
 
     const handleInput = (e)=>{
       setPersonalData({
