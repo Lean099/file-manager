@@ -1,15 +1,20 @@
+import { useContext } from 'react'
 import { useMutation } from "@apollo/client";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { DELETE_USER } from "../../graphql/mutation";
+import { Context } from "../FileManager";
+import { TYPES } from '../../actions/viewAction'
 
 export const DeleteAccount = ()=>{
 
+    const context = useContext(Context)
     const [deleteUser, {data}] = useMutation(DELETE_USER)
     const { user, logout } = useAuth0()
 
     useEffect(()=>{
       if(typeof data!=='undefined'){
+        context.viewDispatch({type: TYPES.RESET})
         logout({returnTo: '/feedbackAccountDeleted'})
       }
     })
@@ -20,6 +25,8 @@ export const DeleteAccount = ()=>{
         id: user.sub.replace('auth0|', '')
       }})
     }
+
+    console.log("DeleteAccount: ", data)
   
     return(
       <div class="">

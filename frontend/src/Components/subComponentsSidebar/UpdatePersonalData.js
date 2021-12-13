@@ -45,6 +45,11 @@ export const UpdatePersonalData = ()=>{
       }})
     }
 
+    console.log("UpdPersonalData: ", data)
+    console.log("UpdPersonalData: ", personalData)
+    console.log("UpdPersonalData: ", avatar)
+    console.log(context)
+
     return(
       <div class="">
   

@@ -33,6 +33,9 @@ export const UpdateEmailPass = ()=>{
       }})
     }
 
+    console.log("UpdateEmailPass: ", dataUser)
+    console.log("UpdateEmailPass: ", user.sub.replace('auth0|', ''))
+
     return(
       <div class="">
   
