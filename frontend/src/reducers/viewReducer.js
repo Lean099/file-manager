@@ -31,10 +31,10 @@ export function viewReducer(state, action){
       }
     }
     case TYPES.GRID_VIEW:{
-      return {grid_view: true, last_view: false}
+      return {...state, grid_view: true, last_view: false}
     }
     case TYPES.LIST_VIEW:{
-      return {grid_view: false, last_view: true}
+      return {...state, grid_view: false, last_view: true}
     }
     case TYPES.RESET:{
       return initialState

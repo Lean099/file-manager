@@ -1,6 +1,8 @@
 import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilePdf, faCaretDown, faDownload, faEye, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import dateformat from "dateformat";
+import { formatBytes } from 'bytes-formatter';
 
 import {Context} from './FileManager'
 import {TYPES} from '../actions/viewAction'
@@ -34,7 +36,7 @@ export const GridViewFiles = ()=>{
                 <div class="card-body">
                 <p class="card-title h6">{file.name}.{file.format}</p>
                
-                  <small class="d-flex justify-content-between"><span class="text-primary">Size: {file.size}</span><span class="text-muted">Nov 21, 2021</span></small>
+                  <small class="d-flex justify-content-between"><span class="text-primary">Size: {formatBytes(file.size)}</span><span class="text-muted">{dateformat(file.createdAt, "mmm dd, yyyy")}</span></small>
                
                  
               </div>

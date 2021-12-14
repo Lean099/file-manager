@@ -1,8 +1,15 @@
+import { useContext } from "react";
+import { Context } from "./FileManager";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileVideo, faFileImage, faFilePdf, faFileExcel, faFilePowerpoint, faTrashAlt, faEye } from '@fortawesome/free-solid-svg-icons'
 import '../table.css';
+import dateformat from "dateformat";
+import { formatBytes } from 'bytes-formatter';
 
 export const ListViewFiles = ()=>{
+
+  const context = useContext(Context)
+
   return(
     <div class="table-responsive" id="table-items">
       <table class="table table-bordered">
@@ -16,6 +23,22 @@ export const ListViewFiles = ()=>{
           </tr>
         </thead>
         <tbody class="table-light">
+          {
+            context.filesViewState.files.map(file => (
+              <tr>
+                <td class="type"><p class="text-center"><FontAwesomeIcon icon={faFileImage}/></p></td>
+                <td class="name">{file.name}.{file.format}</td>
+                <td>{dateformat(file.createdAt, "mmm dd, yyyy")}</td>
+                <td>{formatBytes(file.size)}</td>
+                <td>
+                  <div class="d-flex justify-content-center">
+                    <button class="btn btn-danger btn-sm me-1"><FontAwesomeIcon icon={faTrashAlt}/></button>
+                    <button class="btn btn-success btn-sm"><FontAwesomeIcon icon={faEye}/></button>
+                  </div>
+                </td>
+              </tr>
+            ))
+          }
           <tr>
             <td class="type"><p class="text-center"><FontAwesomeIcon icon={faFileImage}/></p></td>
             <td class="name">Family.jpg</td>
