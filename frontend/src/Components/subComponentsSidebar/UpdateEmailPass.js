@@ -14,14 +14,55 @@ export const UpdateEmailPass = ()=>{
 
     useEffect(()=>{
       if(typeof data!=='undefined'){
-        context.viewDispatch({type: TYPES.SET_EMAIL_OR_PASSWORD, payload: data})
+        context.viewDispatch({type: TYPES.SET_EMAIL_OR_PASSWORD, payload: data.updateEmailAndPassword})
       }
     }, [data])
 
     const handleChange = (e)=>{
       setDataUser({
+        ...dataUser,
         [e.target.name] : e.target.value
       })
+    }
+
+    const disableInput = (e)=>{
+      switch(e.target.name){
+        case 'email':
+          const inputEmail = document.getElementById('email').disabled 
+          if(inputEmail){
+            document.getElementById('email').disabled = false
+            setDataUser({
+              ...dataUser,
+              email: ''
+            })
+          }else{
+            document.getElementById('email').disabled = true
+            setDataUser({
+              ...dataUser,
+              email: undefined
+            })
+          }
+          break;
+        case 'pass':
+          const inputPass = document.getElementById('password').disabled 
+          if(inputPass){
+            document.getElementById('password').disabled = false
+            setDataUser({
+              ...dataUser,
+              password: ''
+            })
+          }else{
+            document.getElementById('password').disabled = true
+            setDataUser({
+              ...dataUser,
+              password: undefined
+            })
+          }
+          break;
+          default:
+            return dataUser
+      }
+      
     }
     
     const sendUpdate = (e)=>{
@@ -33,9 +74,6 @@ export const UpdateEmailPass = ()=>{
       }})
     }
 
-    console.log("UpdateEmailPass: ", dataUser)
-    console.log("UpdateEmailPass: ", user.sub.replace('auth0|', ''))
-
     return(
       <div class="">
   
@@ -44,14 +82,25 @@ export const UpdateEmailPass = ()=>{
           <div class="col-12 col-sm-6">
             <div class="mb-3">
               <label for="email" class="form-label">Email address</label>
-              <input onChange={handleChange} type="email" class="form-control" name="email" id="email" value={dataUser.email} placeholder="Ex: name@example.com"/>
+              <div class="mb-3 input-group">
+                <input onChange={handleChange} type="email" class="form-control" name="email" id="email" value={dataUser.email} placeholder="Ex: name@example.com"/>
+                <button onClick={disableInput} name="email" class="btn btn-dark" type="button" id="emailBtn">
+                  <div class="btn-close btn-close-white"></div>
+                </button>
+              </div>
             </div>
           </div>
   
           <div class="col-12 col-sm-6">
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
-              <input onChange={handleChange} type="password" class="form-control" name="password" id="password" value={dataUser.password} />
+              <div class="mb-3 input-group">
+                <input onChange={handleChange} type="password" class="form-control" name="password" id="password" value={dataUser.password} />
+                <button onClick={disableInput} name="pass" class="btn btn-dark" type="button" id="passBtn">
+                  <div class="btn-close btn-close-white"></div>
+                </button>
+              </div>
+              
             </div>
           </div>
   

@@ -171,6 +171,17 @@ export const resolvers = {
         return r
       }
       
+    },
+    deleteUser: async (_, args)=>{
+      const userFound = await User.findOne({_id: args.idUser}).populate('files')
+      const userDeleted = await User.findOneAndDelete({_id: userFound._id}).populate('files')
+      console.log(userDeleted)
+      userFound.files.forEach(async e => {
+        await cloudinary.v2.uploader.destroy(e.public_id)
+      });
+      await cloudinary.v2.uploader.destroy(userFound.avatar_public_id)
+      await File.deleteMany({userProperty: userFound._id})
+      return "The user has been deleted"
     }
   }
 };

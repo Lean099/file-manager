@@ -4,8 +4,6 @@ import { Context } from "./FileManager";
 
 export const FeedbackAccountDeleted = ()=>{
 
-    Context.viewDispatch({type: TYPES.RESET})
-
     return(
         <div className="container">
             <div className="card text-center my-4">

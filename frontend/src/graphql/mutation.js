@@ -37,6 +37,7 @@ export const UPLOAD_IMAGE_PERSONAL_DATA = gql`
       occupation
       avatar
       avatar_public_id
+      email
     }
   }
 `

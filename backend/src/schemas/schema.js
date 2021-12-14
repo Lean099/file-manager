@@ -35,6 +35,7 @@ export const typeDefs = gql`
         updateNameFile(idFile: String, nameFile: String): File
         updatePersonalData(idUser: String, file: Upload, username: String, occupation: String): User
         updateEmailAndPassword(idUser: String, newEmail: String, newPass: String): User
+        deleteUser(idUser: String): String
     }
 
 `

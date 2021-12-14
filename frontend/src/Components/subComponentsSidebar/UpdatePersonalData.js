@@ -15,7 +15,7 @@ export const UpdatePersonalData = ()=>{
 
     useEffect(()=>{
       if(typeof data!=='undefined'){
-        context.viewDispatch({type: TYPES.SET_AVATAR_USERNAME_OCCUPATION, payload: data})
+        context.viewDispatch({type: TYPES.SET_AVATAR_USERNAME_OCCUPATION, payload: data.updatePersonalData})
       }
     }, [data])
 
@@ -44,11 +44,6 @@ export const UpdatePersonalData = ()=>{
         occupation: personalData.occupation
       }})
     }
-
-    console.log("UpdPersonalData: ", data)
-    console.log("UpdPersonalData: ", personalData)
-    console.log("UpdPersonalData: ", avatar)
-    console.log(context)
 
     return(
       <div class="">

@@ -13,11 +13,11 @@ export const DeleteAccount = ()=>{
     const { user, logout } = useAuth0()
 
     useEffect(()=>{
-      if(typeof data!=='undefined'){
+      if(typeof data!=='undefined' && data?.deleteUser==='The user has been deleted'){
         context.viewDispatch({type: TYPES.RESET})
-        logout({returnTo: '/feedbackAccountDeleted'})
+        logout({returnTo: 'http://localhost:3000/feedbackAccountDeleted'})
       }
-    })
+    }, [data])
 
     const sendDelete = (e)=>{
       e.preventDefault()
@@ -26,8 +26,6 @@ export const DeleteAccount = ()=>{
       }})
     }
 
-    console.log("DeleteAccount: ", data)
-  
     return(
       <div class="">
   

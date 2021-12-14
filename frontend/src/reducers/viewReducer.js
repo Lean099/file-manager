@@ -16,15 +16,19 @@ export function viewReducer(state, action){
       return {...state, files: action.payload}
     }
     case TYPES.SET_AVATAR_USERNAME_OCCUPATION:{
-      console.log(action)
       return {
         ...state,
-        username: action.payload.updatePersonalData.username,
-        avatar: action.payload.updatePersonalData.avatar, 
-        occupation: action.payload.updatePersonalData.occupation}
+        username: action.payload.username,
+        avatar: action.payload.avatar, 
+        occupation: action.payload.occupation,
+        email: action.payload.email
+      }
     }
     case TYPES.SET_EMAIL_OR_PASSWORD:{
-      console.log(action)
+      return {
+        ...state,
+        email: action.payload.email
+      }
     }
     case TYPES.GRID_VIEW:{
       return {grid_view: true, last_view: false}

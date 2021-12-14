@@ -18,6 +18,7 @@ export const SidebarProfile = ()=>{
   useEffect(()=>{
     if(typeof data!=='undefined'){
       context.viewDispatch({type: TYPES.SET_PERSONAL_DATA, payload: data.getUser})
+      context.viewDispatch({type: TYPES.SET_AVATAR_USERNAME_OCCUPATION, payload: data.getUser})
     }
   }, [data])
 
