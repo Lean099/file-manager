@@ -3,6 +3,7 @@ import { gql } from 'apollo-server-express'
 export const typeDefs = gql`
 
     scalar Upload
+    scalar Date
 
     type Query{
         getUser(id: String!): User
@@ -27,6 +28,8 @@ export const typeDefs = gql`
         public_id: String
         url: String
         userProperty: ID
+        createdAt: Date
+        updatedAt: Date
     }
 
     type Mutation{

@@ -22,6 +22,7 @@ export const GET_USER_FILES = gql`
 			format
 			size
 			url
+			createdAt
 		}
 	}
 `

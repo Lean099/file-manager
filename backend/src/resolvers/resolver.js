@@ -1,4 +1,5 @@
 import { GraphQLUpload } from 'graphql-upload';
+import { DateTimeResolver, DateResolver } from "graphql-scalars";
 import { createWriteStream, readdir, unlink } from 'fs'
 import path from 'path'
 import File from "../models/File";
@@ -104,6 +105,7 @@ const saveAvatarWithStream = async ({ stream, filename, idUser, username, occupa
 
 export const resolvers = {
     Upload: GraphQLUpload,
+    Date: DateTimeResolver,
     Query: {
         getUser: async (_, args)=>{
           return await User.findOne({_id: args.id})
