@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faFileVideo, faFile, faFileImage, faFilter, faList, faTh, faSyncAlt} from '@fortawesome/free-solid-svg-icons'
 import { useAuth0 } from "@auth0/auth0-react";
@@ -12,9 +12,16 @@ import { UPLOAD_IMAGE } from '../graphql/mutation'
 export const NavDrive = ()=>{
 
   const { user } = useAuth0()
-  const [uploadImage, {data}] = useMutation(UPLOAD_IMAGE)
+  const [uploadImage, {data, reset}] = useMutation(UPLOAD_IMAGE)
   const [newImage, setNewImage] = useState(null)
   const context = useContext(Context);
+
+  useEffect(()=>{
+    if(typeof data!=='undefined'){
+			context.viewDispatch({type: TYPES.NEW_FILE_UPLOADED, payload: data.singleUpload})
+      reset()
+		}
+  }, [data])
 
   const saveImageState = (e)=>{
     setNewImage(e.target.files[0])

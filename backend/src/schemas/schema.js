@@ -33,7 +33,7 @@ export const typeDefs = gql`
     }
 
     type Mutation{
-        singleUpload(file: Upload, id: String): String
+        singleUpload(file: Upload, id: String): File
         deleteFile(idFile: String): String
         updateNameFile(idFile: String, nameFile: String): File
         updatePersonalData(idUser: String, file: Upload, username: String, occupation: String): User

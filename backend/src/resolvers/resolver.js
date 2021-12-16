@@ -13,6 +13,13 @@ cloudinary.config({
     api_secret: 'VVgCNgUjFncGbG26pj0wPGEMFGQ'
 })
 
+function getFilePath(pathDir, callback){
+  readdir(pathDir, async (error, file)=>{
+    if(error) return callback(error)
+    callback(null, path.join(__dirname,"../", "./public/"+file[0]))
+  })
+}
+
 const saveFileWithStream = ({ filename, mimetype, stream, id })=>{
   const pathL = path.join(__dirname,'../', `./public/${filename}`)
   return new Promise((resolve, reject)=>
@@ -20,13 +27,9 @@ const saveFileWithStream = ({ filename, mimetype, stream, id })=>{
     .pipe(createWriteStream(pathL))
     .on("finish", async ()=>{
 
-      readdir(path.join(__dirname,'../', './public'), async (error, files)=>{
-        if(error){
-            throw error
-        }
-        const url = path.join(__dirname,"../", "./public/"+files[0])
+      await getFilePath(path.join(__dirname,'../', './public'), async (error, file)=>{
         const filenameWithoutExt = filename.replace(path.extname(filename), '')
-        const result = await cloudinary.v2.uploader.upload(url, {public_id: filenameWithoutExt})
+        const result = await cloudinary.v2.uploader.upload(file, {public_id: filenameWithoutExt})
         const user = await User.findOne({_id: id})
         const urlFile = result?.url
         const newFile = new File({
@@ -44,27 +47,21 @@ const saveFileWithStream = ({ filename, mimetype, stream, id })=>{
         }
         const fileSaved = await newFile.save()
         await User.findOneAndUpdate({_id: id}, {$push: {files: fileSaved._id}})
-        await unlink(url, (err)=>{
+        await unlink(file, (err)=>{
           if(err){
             console.log(err)
           }else{
             console.log('File deleted')
           }
-          
         })
+        resolve(fileSaved)
       })
-      resolve('Todo OK')
     })
     .on("error", reject)
   )
 }
 
-function getFilePath(pathDir, callback){
-  readdir(pathDir, async (error, file)=>{
-    if(error) return callback(error)
-    callback(null, path.join(__dirname,"../", "./public/"+file[0]))
-  })
-}
+
 
 const saveAvatarWithStream = async ({ stream, filename, idUser, username, occupation })=>{
   const pathL = path.join(__dirname,'../', `./public/${filename}`)

@@ -4,7 +4,14 @@ import { gql } from '@apollo/client'
 
 export const UPLOAD_IMAGE = gql`
   mutation singleUpload($file: Upload, $id: String){
-    singleUpload(file: $file, id: $id)
+    singleUpload(file: $file, id: $id){
+      _id
+			name
+			format
+			size
+			url
+			createdAt
+    }
   }
 `
 
