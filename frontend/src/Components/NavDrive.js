@@ -6,8 +6,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import {Context} from './FileManager'
 import {TYPES} from '../actions/viewAction'
 
-import { useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { UPLOAD_IMAGE } from '../graphql/mutation'
+import { GET_USER_FILES } from "../graphql/query";
 
 export const NavDrive = ()=>{
 
@@ -37,6 +38,10 @@ export const NavDrive = ()=>{
       file: newImage,
       id: user.sub.replace('auth0|', '')
     }})
+  }
+
+  const refreshFiles = ()=>{
+
   }
 
   return(
@@ -81,9 +86,9 @@ export const NavDrive = ()=>{
               All Items
             </button>
             <ul class="dropdown-menu">
-              <li><button onClick={context.viewDispatch({type: TYPES.ONLY_DOCUMENTS, payload: context.filesViewState.files})} class="dropdown-item btn"><FontAwesomeIcon icon={faFile} className="me-1" />Documents</button></li>
-              <li><button onClick={context.viewDispatch({type: TYPES.ONLY_MULTIMEDIA, payload: context.filesViewState.files})} class="dropdown-item btn"><FontAwesomeIcon icon={faFileImage} className="me-1" />Multimedia</button></li>
-              <li><button class="dropdown-item btn"><FontAwesomeIcon icon={faFileVideo} className="me-1" />Videos</button></li>
+              <li><button onClick={()=>{context.viewDispatch({type: TYPES.ALL_FILES})}} class="dropdown-item btn"><FontAwesomeIcon icon={faFileVideo} className="me-1" />All</button></li>
+              <li><button onClick={()=>{context.viewDispatch({type: TYPES.ONLY_DOCUMENTS, payload: context.filesViewState.files})}} class="dropdown-item btn"><FontAwesomeIcon icon={faFile} className="me-1" />Documents</button></li>
+              <li><button onClick={()=>{context.viewDispatch({type: TYPES.ONLY_MULTIMEDIA, payload: context.filesViewState.files})}} class="dropdown-item btn"><FontAwesomeIcon icon={faFileImage} className="me-1" />Multimedia</button></li>
             </ul>
           </div>
 
@@ -92,12 +97,12 @@ export const NavDrive = ()=>{
               <FontAwesomeIcon icon={faFilter} className="me-1" />Sort
             </button>
             <ul class="dropdown-menu">
-              <li><button onClick={context.viewDispatch({type: TYPES.NEW_FILES_FIRST, payload: context.filesViewState.files})} class="dropdown-item btn">New Files First</button></li>
-              <li><button onClick={context.viewDispatch({type: TYPES.OLD_FILES_FIRST, payload: context.filesViewState.files})} class="dropdown-item btn">Old Files First</button></li>
+              <li><button onClick={()=>{context.viewDispatch({type: TYPES.NEW_FILES_FIRST, payload: context.filesViewState.files})}} class="dropdown-item btn">New Files First</button></li>
+              <li><button onClick={()=>{context.viewDispatch({type: TYPES.OLD_FILES_FIRST, payload: context.filesViewState.files})}} class="dropdown-item btn">Old Files First</button></li>
             </ul>
           </div>
 
-          <button class="btn btn-outline-dark btn-sm"><FontAwesomeIcon icon={faSyncAlt}/></button>
+          <button onClick={refreshFiles} class="btn btn-outline-dark btn-sm"><FontAwesomeIcon icon={faSyncAlt}/></button>
 
         </div>
 
