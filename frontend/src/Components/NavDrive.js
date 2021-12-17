@@ -81,8 +81,8 @@ export const NavDrive = ()=>{
               All Items
             </button>
             <ul class="dropdown-menu">
-              <li><button class="dropdown-item btn"><FontAwesomeIcon icon={faFile} className="me-1" />Documentos</button></li>
-              <li><button class="dropdown-item btn"><FontAwesomeIcon icon={faFileImage} className="me-1" />Imagenes</button></li>
+              <li><button onClick={context.viewDispatch({type: TYPES.ONLY_DOCUMENTS, payload: context.filesViewState.files})} class="dropdown-item btn"><FontAwesomeIcon icon={faFile} className="me-1" />Documents</button></li>
+              <li><button onClick={context.viewDispatch({type: TYPES.ONLY_MULTIMEDIA, payload: context.filesViewState.files})} class="dropdown-item btn"><FontAwesomeIcon icon={faFileImage} className="me-1" />Multimedia</button></li>
               <li><button class="dropdown-item btn"><FontAwesomeIcon icon={faFileVideo} className="me-1" />Videos</button></li>
             </ul>
           </div>
@@ -92,8 +92,8 @@ export const NavDrive = ()=>{
               <FontAwesomeIcon icon={faFilter} className="me-1" />Sort
             </button>
             <ul class="dropdown-menu">
-              <li><button class="dropdown-item btn">Nuevos Primero</button></li>
-              <li><button class="dropdown-item btn">Viejos Primero</button></li>
+              <li><button onClick={context.viewDispatch({type: TYPES.NEW_FILES_FIRST, payload: context.filesViewState.files})} class="dropdown-item btn">New Files First</button></li>
+              <li><button onClick={context.viewDispatch({type: TYPES.OLD_FILES_FIRST, payload: context.filesViewState.files})} class="dropdown-item btn">Old Files First</button></li>
             </ul>
           </div>
 

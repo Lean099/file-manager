@@ -1,8 +1,8 @@
 import {TYPES} from '../actions/viewAction'
 
 export const initialState = {
-  files: [],
-  filterFiles: [],
+  files: [],        
+  filterFiles: [],  
   email: '',
   username: '',
   occupation: '',
@@ -18,7 +18,13 @@ export const initialState = {
 export function viewReducer(state, action){
   switch(action.type){
     case TYPES.GET_FILES_USER:{
-      return {...state, files: action.payload}
+      if(state.new_files_first){
+        let newFilesFirst = action.payload.sort((a,b)=> new Date(b.createdAt)-new Date(a.createdAt))
+        return {...state, files: newFilesFirst}
+      }else{
+        let oldFilesFirst = action.payload.sort((a,b)=> new Date(a.createdAt)-new Date(b.createdAt))
+        return {...state, files: oldFilesFirst}
+      }
     }
     case TYPES.NEW_FILE_UPLOADED:{
       return {...state, files: [...state.files, action.payload]}
@@ -45,12 +51,26 @@ export function viewReducer(state, action){
       return {...state, grid_view: false, last_view: true}
     }
     case TYPES.NEW_FILES_FIRST:{
-      let newArr = action.payload.sort((a,b)=> new Date(b.date)-new Date(a.date))
-      return {...state, filterFiles: newArr, new_files_first: true, old_files_first: false}
+      if(state.filterFiles.length!==0){
+        let mainFilesArr = action.payload.sort((a,b)=> new Date(b.createdAt)-new Date(a.createdAt))
+        let filterArr = state.filterFiles.sort((a,b)=> new Date(b.createdAt)-new Date(a.createdAt))
+        return {...state, files: mainFilesArr, filterFiles: filterArr, new_files_first: true, old_files_first: false}
+      }else{
+        let mainFilesArr = action.payload.sort((a,b)=> new Date(b.createdAt)-new Date(a.createdAt))
+        let filterArr = action.payload.sort((a,b)=> new Date(b.createdAt)-new Date(a.createdAt))
+        return {...state, files: mainFilesArr, filterFiles: filterArr, new_files_first: true, old_files_first: false}
+      }
     }
     case TYPES.OLD_FILES_FIRST:{
-      let newArr = action.payload.sort((a,b)=> new Date(a.date)-new Date(b.date))
-      return {...state, filterFiles: newArr, old_files_first: false, new_files_first: false}
+      if(state.filterFiles.length!==0){
+        let mainFilesArr = action.payload.sort((a,b)=> new Date(a.createdAt)-new Date(b.createdAt))
+        let filterArr = state.filterFiles.sort((a,b)=> new Date(a.createdAt)-new Date(b.createdAt))
+        return {...state, files: mainFilesArr, filterFiles: filterArr, old_files_first: false, new_files_first: false}
+      }else{
+        let mainFilesArr = action.payload.sort((a,b)=> new Date(a.createdAt)-new Date(b.createdAt))
+        let filterArr = action.payload.sort((a,b)=> new Date(a.createdAt)-new Date(b.createdAt))
+        return {...state, files: mainFilesArr, filterFiles: filterArr, old_files_first: false, new_files_first: false}
+      }
     }
     case TYPES.ONLY_DOCUMENTS:{
       const formats = ['xlss', 'docx', 'pdf', 'txt', 'pptx', 'doc']
