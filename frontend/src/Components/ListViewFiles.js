@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Context } from "./FileManager";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFileVideo, faFileImage, faFilePdf, faFileExcel, faFilePowerpoint, faTrashAlt, faEye } from '@fortawesome/free-solid-svg-icons'
+import { faFileImage,  faTrashAlt, faEye, faDownload, faFileSignature } from '@fortawesome/free-solid-svg-icons'
 import '../table.css';
 import dateformat from "dateformat";
 import { formatBytes } from 'bytes-formatter';
@@ -35,6 +35,8 @@ export const ListViewFiles = ()=>{
                   <div class="d-flex justify-content-center">
                     <button class="btn btn-danger btn-sm me-1"><FontAwesomeIcon icon={faTrashAlt}/></button>
                     <button class="btn btn-success btn-sm"><FontAwesomeIcon icon={faEye}/></button>
+                    <button class="btn btn-primary btn-sm"><FontAwesomeIcon icon={faDownload}/></button>
+                    <button class="btn btn-secondary btn-sm"><FontAwesomeIcon icon={faFileSignature}/></button>
                   </div>
                 </td>
               </tr>
@@ -48,6 +50,8 @@ export const ListViewFiles = ()=>{
                   <div class="d-flex justify-content-center">
                     <button class="btn btn-danger btn-sm me-1"><FontAwesomeIcon icon={faTrashAlt}/></button>
                     <button class="btn btn-success btn-sm"><FontAwesomeIcon icon={faEye}/></button>
+                    <button class="btn btn-primary btn-sm"><FontAwesomeIcon icon={faDownload}/></button>
+                    <button class="btn btn-secondary btn-sm"><FontAwesomeIcon icon={faFileSignature}/></button>
                   </div>
                 </td>
               </tr>
@@ -61,6 +65,8 @@ export const ListViewFiles = ()=>{
                   <div class="d-flex justify-content-center">
                     <button class="btn btn-danger btn-sm me-1"><FontAwesomeIcon icon={faTrashAlt}/></button>
                     <button class="btn btn-success btn-sm"><FontAwesomeIcon icon={faEye}/></button>
+                    <button class="btn btn-primary btn-sm"><FontAwesomeIcon icon={faDownload}/></button>
+                    <button class="btn btn-secondary btn-sm"><FontAwesomeIcon icon={faFileSignature}/></button>
                   </div>
                 </td>
               </tr>

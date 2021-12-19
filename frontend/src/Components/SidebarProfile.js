@@ -28,7 +28,7 @@ export const SidebarProfile = ()=>{
     <div class="card mt-1" id="side">
       <img src={ context.filesViewState.avatar!=='' ? context.filesViewState.avatar : "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"} class="mx-auto d-block" id="imgProfile"  alt="imgUser"/>
       <div class="card-body">
-        <h5 class="card-title text-center">{ context.filesViewState.username!=='' ? context.filesViewState.username : "UserExample" }</h5>
+        <h5 class="card-title text-center">{ context.filesViewState.username!=='' ? context.filesViewState.username : "UsernameExample" }</h5>
         <p class="text-center mb-1"><span class="badge bg-info text-dark">{ context.filesViewState.occupation!=='' ? context.filesViewState.occupation : "OccupationExample" }</span></p>
         <p class="font-monospace text-center mb-1">{ context.filesViewState.email!=='' ? context.filesViewState.email : "Example@mail.com" }</p>
         <div class="d-grid gap-2 mb-1">

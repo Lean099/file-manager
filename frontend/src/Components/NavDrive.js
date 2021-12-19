@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faFileVideo, faFile, faFileImage, faFilter, faList, faTh } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faFileVideo, faFile, faFileImage, faFilter, faList, faTh, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { useAuth0 } from "@auth0/auth0-react";
 
 import {Context} from './FileManager'
@@ -8,6 +8,7 @@ import {TYPES} from '../actions/viewAction'
 
 import { useMutation } from '@apollo/client'
 import { UPLOAD_IMAGE } from '../graphql/mutation'
+
 
 export const NavDrive = ()=>{
 
@@ -27,7 +28,7 @@ export const NavDrive = ()=>{
     setNewImage(e.target.files[0])
   }
 
-  const resetInputFile = (e)=>{
+  const resetInputFile = ()=>{
     document.getElementById("fileInput").value = "";
   }
 
@@ -50,7 +51,7 @@ export const NavDrive = ()=>{
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">New File</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" onClick={resetInputFile} data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                   <div class="col">
@@ -62,9 +63,16 @@ export const NavDrive = ()=>{
                           </button>
                       </div>
                   </div>
+                  {
+                    data && (
+                      <div class="alert alert-success my-2 p-2" role="alert">
+                        <FontAwesomeIcon icon={faCheckCircle} className="me-1" />The file has been uploaded successfully
+                      </div>
+                    )
+                  }  
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" onClick={resetInputFile} class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" onClick={sendFileBackend} class="btn btn-primary">Upload</button>
               </div>
             </div>

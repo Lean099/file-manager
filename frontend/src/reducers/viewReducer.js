@@ -27,7 +27,8 @@ export function viewReducer(state, action){
       }
     }
     case TYPES.NEW_FILE_UPLOADED:{
-      return {...state, files: [...state.files, action.payload]}
+      let newFileInArr = [...state.files, action.payload].slice().sort((a,b)=> new Date(b.createdAt)-new Date(a.createdAt))
+      return {...state, files: newFileInArr}
     }
     case TYPES.SET_AVATAR_USERNAME_OCCUPATION:{
       return {
