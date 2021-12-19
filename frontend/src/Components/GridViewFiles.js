@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFilePdf, faCaretDown, faDownload, faEye, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faFilePdf, faCaretDown, faDownload, faEye, faTrashAlt, faFileSignature } from '@fortawesome/free-solid-svg-icons'
 import dateformat from "dateformat";
 import { formatBytes } from 'bytes-formatter';
 
@@ -25,6 +25,7 @@ export const GridViewFiles = ()=>{
                       <a class="btn btn-success btn-sm" href={file.url} target='_blank' rel='noreferrer'><FontAwesomeIcon icon={faEye}/></a>
                       <button class="btn btn-primary btn-sm"><FontAwesomeIcon icon={faDownload}/></button>
                       <button class="btn btn-danger btn-sm"><FontAwesomeIcon icon={faTrashAlt}/></button>
+                      <button class="btn btn-secondary btn-sm"><FontAwesomeIcon icon={faFileSignature}/></button>
                     </div>
                   </div> 
                 </div>
@@ -51,6 +52,7 @@ export const GridViewFiles = ()=>{
                       <a class="btn btn-success btn-sm" href={file.url} target='_blank' rel='noreferrer'><FontAwesomeIcon icon={faEye}/></a>
                       <button class="btn btn-primary btn-sm"><FontAwesomeIcon icon={faDownload}/></button>
                       <button class="btn btn-danger btn-sm"><FontAwesomeIcon icon={faTrashAlt}/></button>
+                      <button class="btn btn-secondary btn-sm"><FontAwesomeIcon icon={faFileSignature}/></button>
                     </div>
                   </div> 
                 </div>
@@ -77,6 +79,7 @@ export const GridViewFiles = ()=>{
                       <a class="btn btn-success btn-sm" href={file.url} target='_blank' rel='noreferrer'><FontAwesomeIcon icon={faEye}/></a>
                       <button class="btn btn-primary btn-sm"><FontAwesomeIcon icon={faDownload}/></button>
                       <button class="btn btn-danger btn-sm"><FontAwesomeIcon icon={faTrashAlt}/></button>
+                      <button class="btn btn-secondary btn-sm"><FontAwesomeIcon icon={faFileSignature}/></button>
                     </div>
                   </div> 
                 </div>

@@ -20,6 +20,53 @@ function getFilePath(pathDir, callback){
   })
 }
 
+function verifyFormat(formatFile){
+  const formats = ['mp4', 'mp3', 'avi', 'wmv', 'mkv', 'jpg', 'png', 'jpeg', 'gif', 'svg']
+  for(let x = 0; x<formats.length ;x++){
+    if(formatFile===formats[x]){
+      return true
+    }
+    return false
+  }
+}
+
+async function uploadAndSaveFile(filename, id, file){
+
+  const result = await cloudinary.v2.uploader.upload(file, {resource_type: "auto", public_id: filename})
+  const user = await User.findOne({_id: id})
+  const urlFile = result?.url
+  const newFile = new File({
+    name: result.original_filename,
+    format: '',
+    size: result.bytes,
+    public_id: result.public_id,
+    url: '',
+    userProperty: user._id
+  })
+  if(result.resource_type === 'raw'){
+    const ext = path.extname(filename)
+    newFile.format = ext.replace('.', '')
+  }else{
+    newFile.format = result.format
+  }
+  if(typeof urlFile == 'undefined'){
+    newFile.url=''
+  }else{
+      newFile.url=result.url
+  }
+  const fileSaved = await newFile.save()
+  await User.findOneAndUpdate({_id: id}, {$push: {files: fileSaved._id}})
+  await unlink(file, (err)=>{
+    if(err){
+      console.log(err)
+    }else{
+      console.log('File deleted')
+    }
+  })
+  return fileSaved
+  
+}
+
 const saveFileWithStream = ({ filename, mimetype, stream, id })=>{
   const pathL = path.join(__dirname,'../', `./public/${filename}`)
   return new Promise((resolve, reject)=>
@@ -27,41 +74,32 @@ const saveFileWithStream = ({ filename, mimetype, stream, id })=>{
     .pipe(createWriteStream(pathL))
     .on("finish", async ()=>{
 
-      await getFilePath(path.join(__dirname,'../', './public'), async (error, file)=>{
-        const filenameWithoutExt = filename.replace(path.extname(filename), '')
-        const result = await cloudinary.v2.uploader.upload(file, {public_id: filenameWithoutExt})
-        const user = await User.findOne({_id: id})
-        const urlFile = result?.url
-        const newFile = new File({
-          name: result.original_filename,
-          format: result.format,
-          size: result.bytes,
-          public_id: result.public_id,
-          url: '',
-          userProperty: user._id
-        })
-        if(typeof urlFile == 'undefined'){
-            newFile.url=''
-        }else{
-            newFile.url=result.url
-        }
-        const fileSaved = await newFile.save()
-        await User.findOneAndUpdate({_id: id}, {$push: {files: fileSaved._id}})
-        await unlink(file, (err)=>{
-          if(err){
-            console.log(err)
+      getFilePath(path.join(__dirname,'../', './public'), async (error, file)=>{
+        try{
+          const filenameWithoutExt = filename.replace(path.extname(filename), '')
+          let bool = verifyFormat(path.extname(filename))
+          if(bool){
+            const fileSavedReady = await uploadAndSaveFile(filenameWithoutExt, id, file)
+            resolve(fileSavedReady)
           }else{
-            console.log('File deleted')
+            const fileSavedReady = await uploadAndSaveFile(filename, id, file)
+            resolve(fileSavedReady)
           }
-        })
-        resolve(fileSaved)
+        }catch(e){
+          console.log(e)
+          await unlink(file, (err)=>{
+            if(err){
+              console.log(err)
+            }else{
+              console.log('File deleted')
+            }
+          })
+        }
       })
     })
     .on("error", reject)
   )
 }
-
-
 
 const saveAvatarWithStream = async ({ stream, filename, idUser, username, occupation })=>{
   const pathL = path.join(__dirname,'../', `./public/${filename}`)

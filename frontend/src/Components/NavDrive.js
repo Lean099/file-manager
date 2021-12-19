@@ -1,14 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faFileVideo, faFile, faFileImage, faFilter, faList, faTh, faSyncAlt} from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faFileVideo, faFile, faFileImage, faFilter, faList, faTh } from '@fortawesome/free-solid-svg-icons'
 import { useAuth0 } from "@auth0/auth0-react";
 
 import {Context} from './FileManager'
 import {TYPES} from '../actions/viewAction'
 
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import { UPLOAD_IMAGE } from '../graphql/mutation'
-import { GET_USER_FILES } from "../graphql/query";
 
 export const NavDrive = ()=>{
 
@@ -38,10 +37,6 @@ export const NavDrive = ()=>{
       file: newImage,
       id: user.sub.replace('auth0|', '')
     }})
-  }
-
-  const refreshFiles = ()=>{
-
   }
 
   return(
@@ -101,8 +96,6 @@ export const NavDrive = ()=>{
               <li><button onClick={()=>{context.viewDispatch({type: TYPES.OLD_FILES_FIRST, payload: context.filesViewState.files})}} class="dropdown-item btn">Old Files First</button></li>
             </ul>
           </div>
-
-          <button onClick={refreshFiles} class="btn btn-outline-dark btn-sm"><FontAwesomeIcon icon={faSyncAlt}/></button>
 
         </div>
 
