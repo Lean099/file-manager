@@ -12,7 +12,8 @@ export const initialState = {
   new_files_first: true,
   old_files_first: false,
   only_documents: false,
-  only_multimedia: false
+  only_multimedia: false,
+  countdown: false,
 }
 
 export function viewReducer(state, action){
@@ -44,6 +45,9 @@ export function viewReducer(state, action){
         ...state,
         email: action.payload.email
       }
+    }
+    case TYPES.RENAME_FILE:{
+      return state
     }
     case TYPES.GRID_VIEW:{
       return {...state, grid_view: true, last_view: false}
@@ -99,6 +103,13 @@ export function viewReducer(state, action){
       }
       const newFilterArr = action.payload.filter(isDocument)
       return {...state, filterFiles: newFilterArr, only_multimedia: true, only_documents: false}
+    }
+    case TYPES.COUNTDOWN:{
+      if(state.countdown){
+        return {...state, countdown: false}
+      }else{
+        return {...state, countdown: true}
+      }
     }
     case TYPES.RESET:{
       return initialState

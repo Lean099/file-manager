@@ -9,6 +9,8 @@ import {TYPES} from '../actions/viewAction'
 import { useMutation } from '@apollo/client'
 import { UPLOAD_IMAGE } from '../graphql/mutation'
 
+import { Countdown } from './Countdown'
+
 
 export const NavDrive = ()=>{
 
@@ -20,6 +22,7 @@ export const NavDrive = ()=>{
   useEffect(()=>{
     if(typeof data!=='undefined'){
 			context.viewDispatch({type: TYPES.NEW_FILE_UPLOADED, payload: data.singleUpload})
+      context.viewDispatch({type: TYPES.COUNTDOWN})
       reset()
 		}
   }, [data])
@@ -64,9 +67,12 @@ export const NavDrive = ()=>{
                       </div>
                   </div>
                   {
-                    data && (
-                      <div class="alert alert-success my-2 p-2" role="alert">
-                        <FontAwesomeIcon icon={faCheckCircle} className="me-1" />The file has been uploaded successfully
+                    context.filesViewState.countdown && (
+                      <div class="alert alert-success my-2 p-2 d-flex justify-content-between" role="alert">
+                        <div >
+                        <FontAwesomeIcon icon={faCheckCircle} className="me-1" />The file has been uploaded successfully 
+                        </div>
+                        <Countdown/>
                       </div>
                     )
                   }  

@@ -13,20 +13,24 @@
     background-color: #f5f5f5;
   }
 
-  #gbtn{
-    position: absolute;
-    top: 0px;
-    right: 0px;
+#gbtn{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
 
-  }
+#btcollaps{
+  width: 33.75px;
+  border-radius: 10% 10% 0px 0px;
+}
 
-  #btcollaps{
-    width: 33.75px;
-  }
+#firstbtn{
+  border-radius: 0px;
+}
 
-  .file a{
-    text-decoration: none;
-  }
+.file a{
+  text-decoration: none;
+}
 
   @media screen and (min-width: 1200px) {
     #imgProfile{
