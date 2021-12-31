@@ -15,6 +15,10 @@ export const Countdown = ()=>{
   useEffect(() => {
       setPause(false)
       intervalRef.current = setInterval(decreaseNum, 1000);
+      if(numRef.current==1){
+        clearInterval(intervalRef.current)
+        context.viewDispatch({type: TYPES.COUNTDOWN})
+      }
       return () => clearInterval(intervalRef.current);
     }, [num]);
 
@@ -22,11 +26,6 @@ export const Countdown = ()=>{
     setNum((prev) => prev - 1)
     numRef.current = num
   };
-
-  if(numRef.current==1){
-    clearInterval(intervalRef.current)
-    context.viewDispatch({type: TYPES.COUNTDOWN})
-  }
 
   return(
     <div>

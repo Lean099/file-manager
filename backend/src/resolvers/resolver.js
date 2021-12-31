@@ -165,8 +165,15 @@ export const resolvers = {
     },
     updateNameFile: async (_, args)=>{
       const file = await File.findOne({_id: args.idFile})
-      const result = await cloudinary.v2.uploader.rename(file.public_id, args.nameFile)
-      return await File.findOneAndUpdate({_id: args.idFile}, {name: args.nameFile, public_id: result.public_id, url: result.url}, {new: true})
+      const formats = ['mp4', 'mp3', 'avi', 'wmv', 'mkv', 'jpg', 'png', 'jpeg', 'gif', 'svg']
+      const bool = formats.find(item => item === file.format)
+      if(bool || file.format==='pdf'){
+        const result = await cloudinary.v2.uploader.rename(file.public_id, args.nameFile)
+        return await File.findOneAndUpdate({_id: args.idFile}, {name: args.nameFile, public_id: result.public_id, url: result.url}, {new: true})
+      }else{ 
+        const result = await cloudinary.v2.uploader.rename(file.public_id, args.nameFile, {resource_type: "raw"})
+        return await File.findOneAndUpdate({_id: args.idFile}, {name: args.nameFile, public_id: result.public_id, url: result.url}, {new: true})
+      }
     },
     updatePersonalData: async (_, args)=>{
       if(args?.file){

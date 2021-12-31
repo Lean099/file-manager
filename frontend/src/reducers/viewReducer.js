@@ -47,7 +47,16 @@ export function viewReducer(state, action){
       }
     }
     case TYPES.RENAME_FILE:{
-      return state
+      const fileInArr = state.files.find(file => file._id === action.payload._id)
+      const fileInArrFilter = state.filterFiles.find(file => file._id === action.payload._id)
+      if(state.only_documents || state.only_multimedia){
+        return fileInArrFilter && {...state, files: state.files.map(file => 
+          file._id === action.payload._id ? {...file, name: action.payload.name} : {...file}), filterFiles: state.filterFiles.map(file =>
+         file._id === action.payload._id ? {...file, name: action.payload.name} : {...file})}
+      }else{
+        return fileInArr && {...state, files: state.files.map(file => 
+          file._id === action.payload._id ? {...file, name: action.payload.name} : {...file})}
+      }
     }
     case TYPES.GRID_VIEW:{
       return {...state, grid_view: true, last_view: false}
