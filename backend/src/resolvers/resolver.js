@@ -148,6 +148,15 @@ export const resolvers = {
         getUserFiles: async (_, args)=>{
           const filesUser = await User.findOne({_id: args.id}).populate('files')
           return filesUser.files
+        },
+        downloadFile: async (_, args)=>{
+          console.log(args)
+          const result = await cloudinary.v2.search.expression(`public_id:${args.id}`).execute()
+          const downloadUrl = await cloudinary.v2.utils.download_archive_url({
+            public_ids: result.resources[0].public_id,
+            resource_type: 'all'
+          })
+          return downloadUrl
         }
     },
     Mutation:{
@@ -161,7 +170,7 @@ export const resolvers = {
       const fileDeleted = await File.findOneAndDelete({_id: args.idFile})
       await User.findOneAndUpdate({_id: fileDeleted.userProperty}, {$pull:{files: fileDeleted._id}})
       await cloudinary.v2.uploader.destroy(fileDeleted.public_id)
-      return "The file has been deleted"
+      return fileDeleted
     },
     updateNameFile: async (_, args)=>{
       const file = await File.findOne({_id: args.idFile})

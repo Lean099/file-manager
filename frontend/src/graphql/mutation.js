@@ -17,7 +17,11 @@ export const UPLOAD_IMAGE = gql`
 
 export const DELETE_FILE = gql`
   mutation deleteFile($id: String){
-    deleteFile(idFile: $id)
+    deleteFile(idFile: $id){
+      _id
+      format
+      name
+    }
   }
 `
 

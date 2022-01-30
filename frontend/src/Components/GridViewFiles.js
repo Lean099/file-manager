@@ -6,7 +6,7 @@ import {Context} from './FileManager'
 export const GridViewFiles = ()=>{
 
   const context = useContext(Context)
-  
+
   return(
     <div class="container" id="gridviewcont">
       <div class="row clearfix pb-2">

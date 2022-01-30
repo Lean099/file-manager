@@ -1,4 +1,5 @@
 import {TYPES} from '../actions/viewAction'
+import {faFilePdf, faFileAlt, faFileVideo, faFileAudio, faFilePowerpoint, faFileImage, faFileExcel, faFileWord} from '@fortawesome/free-solid-svg-icons'
 
 export const initialState = {
   files: [],        
@@ -14,6 +15,24 @@ export const initialState = {
   only_documents: false,
   only_multimedia: false,
   countdown: false,
+  formats: {
+    "pdf": faFilePdf,
+    "txt": faFileAlt,
+    "jpg": faFileImage,
+    "png": faFileImage,
+    "jpeg": faFileImage,
+    "gif": faFileImage,
+    "svg": faFileImage,
+    "mp4": faFileVideo,
+    "avi": faFileVideo,
+    "wmv": faFileVideo,
+    "mkv" : faFileVideo,
+    "mp3": faFileAudio,
+    "docx": faFileWord,
+    "doc": faFileWord,
+    "xlss": faFileExcel,
+    "pptx": faFilePowerpoint,
+  }
 }
 
 export function viewReducer(state, action){
@@ -57,6 +76,23 @@ export function viewReducer(state, action){
         return fileInArr && {...state, files: state.files.map(file => 
           file._id === action.payload._id ? {...file, name: action.payload.name} : {...file})}
       }
+    }
+    case TYPES.DLT_FILE:{
+
+      const foundArrFiles = state.files.find(file => file._id === action.payload._id)
+      const foundFilterArr = state.filterFiles.find(file => file._id === action.payload._id)
+      const newArrFiles = foundArrFiles && state.files.filter(file => file._id !== foundArrFiles._id)
+      const newFilterArr = foundFilterArr && state.filterFiles.filter(file => file._id !== foundFilterArr._id)
+
+      if(typeof newArrFiles !== 'undefined'){
+        if(typeof newFilterArr !== 'undefined'){
+          return {...state, files: newArrFiles, filterFiles: newFilterArr}
+        }
+        return {...state, files: newArrFiles}
+      }else{
+        return state
+      }
+      
     }
     case TYPES.GRID_VIEW:{
       return {...state, grid_view: true, last_view: false}
@@ -102,7 +138,7 @@ export function viewReducer(state, action){
       return {...state, filterFiles: newFilterArr, only_documents: true, only_multimedia: false}
     }
     case TYPES.ONLY_MULTIMEDIA:{
-      const formats = ['mp4', 'avi', 'wmv', 'mkv', 'jpg', 'png', 'jpeg', 'gif', 'svg']
+      const formats = ['mp4', 'mp3', 'avi', 'wmv', 'mkv', 'jpg', 'png', 'jpeg', 'gif', 'svg']
       const isDocument = (value)=>{
         for(let x = 0; x<formats.length ;x++){
           if(value.format===formats[x]){

@@ -8,6 +8,7 @@ export const typeDefs = gql`
     type Query{
         getUser(id: String!): User
         getUserFiles(id: String!): [File]
+        downloadFile(id: String): String
     }
 
     type User{
@@ -34,7 +35,7 @@ export const typeDefs = gql`
 
     type Mutation{
         singleUpload(file: Upload, id: String): File
-        deleteFile(idFile: String): String
+        deleteFile(idFile: String): File
         updateNameFile(idFile: String, nameFile: String): File
         updatePersonalData(idUser: String, file: Upload, username: String, occupation: String): User
         updateEmailAndPassword(idUser: String, newEmail: String, newPass: String): User

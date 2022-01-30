@@ -20,9 +20,16 @@ export const GET_USER_FILES = gql`
 			_id
 			name
 			format
+			public_id
 			size
 			url
 			createdAt
 		}
+	}
+`
+
+export const DOWNLOAD_FILE = gql`
+	query downloadFile($id: String){
+		downloadFile(id: $id)
 	}
 `
