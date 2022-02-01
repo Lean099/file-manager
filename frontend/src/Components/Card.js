@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilePdf, faCaretDown, faDownload, faEye, faTrashAlt, faFileSignature, faCheckCircle, faFile } from '@fortawesome/free-solid-svg-icons'
 import dateformat from "dateformat";
@@ -32,9 +33,19 @@ export const Card = ({file})=>{
 		if(typeof data1!== 'undefined'){
 			context.viewDispatch({type: TYPES.DLT_FILE, payload: data1.deleteFile})
 			document.getElementById('modalBtnDelete').click()
+			document.getElementById(`modalDelete${data1.deleteFile._id}`).classList.remove("show", "d-block");
+			document.querySelectorAll(".modal-backdrop").forEach(el => el.classList.remove("modal-backdrop"));
 			reset1()
 		}
 	}, [data1])
+
+	useEffect(()=>{
+		if(typeof data2!== 'undefined'){
+			if(data2){
+				window.open(data2.downloadFile)
+			}
+		}
+	}, [data2])
 	
 	const resetInput = (id)=>{
     	document.getElementById(id).value=""
@@ -69,7 +80,6 @@ export const Card = ({file})=>{
 	    }
   	}
 
-
 	return(
 		<div class="col-lg-3 col-md-4 col-sm-6 mt-2" key={file._id}>
             <div class="card">
@@ -78,7 +88,7 @@ export const Card = ({file})=>{
                   <div class="collapse" id={`btn${file._id}`}>
                     <div class="btn-group-vertical">
                       <a class="btn btn-success btn-sm" id="firstbtn" href={file.url} target='_blank' rel='noreferrer'><FontAwesomeIcon icon={faEye}/></a>
-                      <a class="btn btn-primary btn-sm" onClick={()=> getUrlFile({ variables: { id: file.public_id } })} rel="noopener noreferrer" target="_blank" href={data2 && data2.downloadFile}><FontAwesomeIcon icon={faDownload}/></a>
+                      <button class="btn btn-primary btn-sm" onClick={()=>{ getUrlFile({ variables: { id: file.public_id } }) }}><FontAwesomeIcon icon={faDownload}/></button>
                       <button type="button" data-bs-toggle="modal" data-bs-target={`#modalDelete${file._id}`} class="btn btn-danger btn-sm"><FontAwesomeIcon icon={faTrashAlt}/></button>
                       <button type="button" data-bs-toggle="modal" data-bs-target={`#modal${file._id}`} class="btn btn-secondary btn-sm"><FontAwesomeIcon icon={faFileSignature}/></button>
                     </div>
@@ -129,12 +139,12 @@ export const Card = ({file})=>{
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<p>
-								Are you sure you want to delete this file?
-								Name File: {file.name}
-								Format: {file.format}
-								Size: {file.size}
-								</p>
+								<p class="h6 text-center">Are you sure you want to delete this file?</p>
+								<ul>
+									<li><span class="fw-bold">Name File:</span> {file.name}</li>
+									<li><span class="fw-bold">Format:</span> {file.format}</li>
+									<li><span class="fw-bold">Size:</span> {formatBytes(file.size)}</li>
+								</ul>
 							</div>
 							<div class="modal-footer">
 								<button type="button" id="modalBtnDelete" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

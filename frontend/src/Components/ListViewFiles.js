@@ -33,9 +33,9 @@ export const ListViewFiles = ()=>{
                 <td>{formatBytes(file.size)}</td>
                 <td>
                   <div class="d-flex justify-content-center">
+                    <button class="btn btn-success btn-sm me-1"><FontAwesomeIcon icon={faEye}/></button>
+                    <button class="btn btn-primary btn-sm me-1"><FontAwesomeIcon icon={faDownload}/></button>
                     <button class="btn btn-danger btn-sm me-1"><FontAwesomeIcon icon={faTrashAlt}/></button>
-                    <button class="btn btn-success btn-sm"><FontAwesomeIcon icon={faEye}/></button>
-                    <button class="btn btn-primary btn-sm"><FontAwesomeIcon icon={faDownload}/></button>
                     <button class="btn btn-secondary btn-sm"><FontAwesomeIcon icon={faFileSignature}/></button>
                   </div>
                 </td>
@@ -48,9 +48,9 @@ export const ListViewFiles = ()=>{
                 <td>{formatBytes(file.size)}</td>
                 <td>
                   <div class="d-flex justify-content-center">
+                    <button class="btn btn-success btn-sm me-1"><FontAwesomeIcon icon={faEye}/></button>
+                    <button class="btn btn-primary btn-sm me-1"><FontAwesomeIcon icon={faDownload}/></button>
                     <button class="btn btn-danger btn-sm me-1"><FontAwesomeIcon icon={faTrashAlt}/></button>
-                    <button class="btn btn-success btn-sm"><FontAwesomeIcon icon={faEye}/></button>
-                    <button class="btn btn-primary btn-sm"><FontAwesomeIcon icon={faDownload}/></button>
                     <button class="btn btn-secondary btn-sm"><FontAwesomeIcon icon={faFileSignature}/></button>
                   </div>
                 </td>
@@ -63,9 +63,9 @@ export const ListViewFiles = ()=>{
                 <td>{formatBytes(file.size)}</td>
                 <td>
                   <div class="d-flex justify-content-center">
+                    <button class="btn btn-success btn-sm me-1"><FontAwesomeIcon icon={faEye}/></button>
+                    <button class="btn btn-primary btn-sm me-1"><FontAwesomeIcon icon={faDownload}/></button>
                     <button class="btn btn-danger btn-sm me-1"><FontAwesomeIcon icon={faTrashAlt}/></button>
-                    <button class="btn btn-success btn-sm"><FontAwesomeIcon icon={faEye}/></button>
-                    <button class="btn btn-primary btn-sm"><FontAwesomeIcon icon={faDownload}/></button>
                     <button class="btn btn-secondary btn-sm"><FontAwesomeIcon icon={faFileSignature}/></button>
                   </div>
                 </td>
