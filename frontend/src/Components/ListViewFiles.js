@@ -5,6 +5,7 @@ import { faFileImage,  faTrashAlt, faEye, faDownload, faFileSignature } from '@f
 import '../table.css';
 import dateformat from "dateformat";
 import { formatBytes } from 'bytes-formatter';
+import { Row } from './Row'
 
 export const ListViewFiles = ()=>{
 
@@ -25,52 +26,9 @@ export const ListViewFiles = ()=>{
         <tbody class="table-light">
 
           {
-            context.filesViewState.only_documents ? context.filesViewState.filterFiles.map(file=>(
-              <tr>
-                <td class="type"><p class="text-center"><FontAwesomeIcon icon={faFileImage}/></p></td>
-                <td class="name">{file.name}.{file.format}</td>
-                <td>{dateformat(file.createdAt, "mmm dd, yyyy")}</td>
-                <td>{formatBytes(file.size)}</td>
-                <td>
-                  <div class="d-flex justify-content-center">
-                    <button class="btn btn-success btn-sm me-1"><FontAwesomeIcon icon={faEye}/></button>
-                    <button class="btn btn-primary btn-sm me-1"><FontAwesomeIcon icon={faDownload}/></button>
-                    <button class="btn btn-danger btn-sm me-1"><FontAwesomeIcon icon={faTrashAlt}/></button>
-                    <button class="btn btn-secondary btn-sm"><FontAwesomeIcon icon={faFileSignature}/></button>
-                  </div>
-                </td>
-              </tr>
-            )) : context.filesViewState.only_multimedia ? context.filesViewState.filterFiles.map(file=>(
-              <tr>
-                <td class="type"><p class="text-center"><FontAwesomeIcon icon={faFileImage}/></p></td>
-                <td class="name">{file.name}.{file.format}</td>
-                <td>{dateformat(file.createdAt, "mmm dd, yyyy")}</td>
-                <td>{formatBytes(file.size)}</td>
-                <td>
-                  <div class="d-flex justify-content-center">
-                    <button class="btn btn-success btn-sm me-1"><FontAwesomeIcon icon={faEye}/></button>
-                    <button class="btn btn-primary btn-sm me-1"><FontAwesomeIcon icon={faDownload}/></button>
-                    <button class="btn btn-danger btn-sm me-1"><FontAwesomeIcon icon={faTrashAlt}/></button>
-                    <button class="btn btn-secondary btn-sm"><FontAwesomeIcon icon={faFileSignature}/></button>
-                  </div>
-                </td>
-              </tr>
-            )) : context.filesViewState.files.map(file=>(
-              <tr>
-                <td class="type"><p class="text-center"><FontAwesomeIcon icon={faFileImage}/></p></td>
-                <td class="name">{file.name}.{file.format}</td>
-                <td>{dateformat(file.createdAt, "mmm dd, yyyy")}</td>
-                <td>{formatBytes(file.size)}</td>
-                <td>
-                  <div class="d-flex justify-content-center">
-                    <button class="btn btn-success btn-sm me-1"><FontAwesomeIcon icon={faEye}/></button>
-                    <button class="btn btn-primary btn-sm me-1"><FontAwesomeIcon icon={faDownload}/></button>
-                    <button class="btn btn-danger btn-sm me-1"><FontAwesomeIcon icon={faTrashAlt}/></button>
-                    <button class="btn btn-secondary btn-sm"><FontAwesomeIcon icon={faFileSignature}/></button>
-                  </div>
-                </td>
-              </tr>
-            ))
+            context.filesViewState.only_documents ? context.filesViewState.filterFiles.map(file => <Row file={file} />) 
+            : context.filesViewState.only_multimedia ? context.filesViewState.filterFiles.map(file => <Row file={file} />) 
+            : context.filesViewState.files.map(file => <Row file={file} />)
           }
 
         </tbody>

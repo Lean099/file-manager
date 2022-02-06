@@ -8,6 +8,7 @@ export const UPLOAD_IMAGE = gql`
       _id
 			name
 			format
+      public_id
 			size
 			url
 			createdAt

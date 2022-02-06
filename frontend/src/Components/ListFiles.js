@@ -7,7 +7,7 @@ import {Context} from './FileManager'
 
 export const ListFiles = ()=>{
 
-    const context = useContext(Context);
+  const context = useContext(Context);
 
   return(
     <div id="listfilescont">

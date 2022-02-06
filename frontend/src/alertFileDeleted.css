@@ -1,0 +1,31 @@
+@media screen and (min-width: 1200px) {
+  #alertFileDeleted{
+    width: 380px;
+    left: 45%;
+  }
+}
+
+@media screen and (min-width: 911px) and (max-width: 1200px) {
+  #alertFileDeleted{
+    width: 380px;
+    left: 40%;
+  }
+}
+
+@media screen and (min-width: 376px) and (max-width: 910px) {
+  #alertFileDeleted{
+    margin: 5px 10px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  #alertFileDeleted{
+    margin: 5px 10px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  #alertDelete #countdownDiv{
+    margin:auto;
+  }
+}

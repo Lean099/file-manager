@@ -1,5 +1,4 @@
 import { useState, useContext, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFilePdf, faCaretDown, faDownload, faEye, faTrashAlt, faFileSignature, faCheckCircle, faFile } from '@fortawesome/free-solid-svg-icons'
 import dateformat from "dateformat";
@@ -13,7 +12,7 @@ import { DOWNLOAD_FILE } from '../graphql/query'
 import { Context } from './FileManager'
 import { TYPES } from '../actions/viewAction'
 
-export const Card = ({file})=>{
+export const Row = ({file})=>{
 
 	const context = useContext(Context)
 	const [ newName, setNewName ] = useState(null)
@@ -34,7 +33,7 @@ export const Card = ({file})=>{
 			context.viewDispatch({type: TYPES.DLT_FILE, payload: data1.deleteFile})
 			context.viewDispatch({type: TYPES.DELETE_ONE_FILE})
 			context.viewDispatch({type: TYPES.COUNTDOWN})
-			document.getElementById(`modalDelete${data1.deleteFile._id}`).classList.remove("show", "d-block");
+			document.getElementById(`rowModalDelete${data1.deleteFile._id}`).classList.remove("show", "d-block");
 			document.querySelectorAll(".modal-backdrop").forEach(el => el.classList.remove("modal-backdrop"));
 			document.getElementsByTagName("body")[0].style = ''
 			document.getElementsByTagName("body")[0].classList.remove('modal-open')
@@ -49,7 +48,7 @@ export const Card = ({file})=>{
 			}
 		}
 	}, [data2])
-	
+
 	const resetInput = (id)=>{
     	document.getElementById(id).value=""
     	setNewName("")
@@ -84,24 +83,25 @@ export const Card = ({file})=>{
   	}
 
 	return(
-		<div class="col-lg-3 col-md-4 col-sm-6 mt-2" key={file._id}>
-            <div class="card">
-                <div id="gbtn" class="">
-                  <button class="btn btn-dark btn-sm" id="btcollaps" type="button" data-bs-toggle="collapse" data-bs-target={`#btn${file._id}`} aria-expanded="false" aria-controls={`btn${file._id}`}><FontAwesomeIcon icon={faCaretDown}/></button>
-                  <div class="collapse" id={`btn${file._id}`}>
-                    <div class="btn-group-vertical">
-                      {
-                      	file.format!=="pdf" && <a class="btn btn-success btn-sm" id="firstbtn" href={file.url} target='_blank' rel='noreferrer'><FontAwesomeIcon icon={faEye}/></a>
-                      }
-                      <button class="btn btn-primary btn-sm" id={file.format==="pdf" ? "firstbtn" : ""} onClick={()=>{ getUrlFile({ variables: { id: file.public_id } }) }}><FontAwesomeIcon icon={faDownload}/></button>
-                      <button type="button" data-bs-toggle="modal" data-bs-target={`#modalDelete${file._id}`} class="btn btn-danger btn-sm"><FontAwesomeIcon icon={faTrashAlt}/></button>
-                      <button type="button" data-bs-toggle="modal" data-bs-target={`#modal${file._id}`} class="btn btn-secondary btn-sm"><FontAwesomeIcon icon={faFileSignature}/></button>
-                    </div>
-                  </div>
+		<tr>
+           <td class="cellType"><p class="text-center mt-2"><FontAwesomeIcon icon={typeof iconFile(file.format) !== 'undefined' ? iconFile(file.format) : faFile}/></p></td>
+           <td class="cellName"><p>{file.name}.{file.format}</p></td>
+           <td class="cellInfo"><p>{dateformat(file.createdAt, "mmm dd, yyyy")}</p></td>
+           <td class="cellInfo"><p>{formatBytes(file.size)}</p></td>
+           <td>
+              <div class="d-flex justify-content-center" id="cellGroupBtns">
+              	{
+                   file.format!=="pdf" && <a class="btn btn-success btn-sm me-1" href={file.url} target='_blank' rel='noreferrer'><FontAwesomeIcon icon={faEye}/></a>
+                }
+              	<button class="btn btn-primary btn-sm me-1" onClick={()=>{ getUrlFile({variables: { id: file.public_id }}) }}><FontAwesomeIcon icon={faDownload}/></button>
+              	<button type="button" data-bs-toggle="modal" data-bs-target={`#rowModalDelete${file._id}`} class="btn btn-danger btn-sm me-1"><FontAwesomeIcon icon={faTrashAlt}/></button>
+              	<button type="button" data-bs-toggle="modal" data-bs-target={`#rowModal${file._id}`} class="btn btn-secondary btn-sm"><FontAwesomeIcon icon={faFileSignature}/></button>
+              </div>
+              <div>
+              	
+              	{/* Modal #1 RENAME*/}
 
-					{/* Modal #1 */}
-
-                  <div class="modal fade" id={`modal${file._id}`} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal fade" id={`rowModal${file._id}`} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -134,9 +134,9 @@ export const Card = ({file})=>{
                         </div>
                      </div>
 
-					 {/* Modal #2 */}
+              	{/* Modal #2 DELETE*/}
 
-					 <div class="modal fade" id={`modalDelete${file._id}`} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              	<div class="modal fade" id={`rowModalDelete${file._id}`} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered">
 							<div class="modal-content">
 							<div class="modal-header">
@@ -157,22 +157,11 @@ export const Card = ({file})=>{
 							</div>
 							</div>
 						</div>
-					</div>
+				</div>
 
-                </div>
-                
-                <div class="card-img-top">
-                  <FontAwesomeIcon class="card-img-top mx-auto d-block my-4" style={{width: '35px'}} icon={
-                    typeof iconFile(file.format) !== 'undefined' ? iconFile(file.format) : faFile}/>
-                </div>
-                <div class="card-body">
-                <p class="card-title h6">{file.name}.{file.format}</p>
-               
-                  <small class="d-flex justify-content-between"><span class="text-primary">Size: {formatBytes(file.size)}</span><span class="text-muted">{dateformat(file.createdAt, "mmm dd, yyyy")}</span></small>
-               
-                 
+              	
               </div>
-            </div>
-          </div>
+           </td>
+        </tr>
 	)
 }

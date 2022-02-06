@@ -18,6 +18,9 @@ export const Countdown = ()=>{
       if(numRef.current==1){
         clearInterval(intervalRef.current)
         context.viewDispatch({type: TYPES.COUNTDOWN})
+        if(context.filesViewState.delete_one_file){
+          context.viewDispatch({type: TYPES.DELETE_ONE_FILE})
+        }
       }
       return () => clearInterval(intervalRef.current);
     }, [num]);
@@ -28,7 +31,7 @@ export const Countdown = ()=>{
   };
 
   return(
-    <div>
+    <div id="countdownDiv">
       <CountdownCircleTimer
         isPlaying
         duration={5}

@@ -15,6 +15,7 @@ export const initialState = {
   only_documents: false,
   only_multimedia: false,
   countdown: false,
+  delete_one_file: false,
   formats: {
     "pdf": faFilePdf,
     "txt": faFileAlt,
@@ -154,6 +155,13 @@ export function viewReducer(state, action){
         return {...state, countdown: false}
       }else{
         return {...state, countdown: true}
+      }
+    }
+    case TYPES.DELETE_ONE_FILE:{
+      if(state.delete_one_file){
+        return {...state, delete_one_file: false}
+      }else{
+        return {...state, delete_one_file: true}
       }
     }
     case TYPES.RESET:{

@@ -26,7 +26,6 @@ function verifyFormat(formatFile){
     if(formatFile===formats[x]){
       return true
     }
-    return false
   }
 }
 
@@ -77,8 +76,9 @@ const saveFileWithStream = ({ filename, mimetype, stream, id })=>{
       getFilePath(path.join(__dirname,'../', './public'), async (error, file)=>{
         try{
           const filenameWithoutExt = filename.replace(path.extname(filename), '')
-          let bool = verifyFormat(path.extname(filename))
-          if(bool){
+          const formatFile = path.extname(filename)
+          let itsNotRaw = verifyFormat(formatFile.replace('.', ''))
+          if(typeof itsNotRaw!=='undefined' || formatFile.replace('.', '')==='pdf'){
             const fileSavedReady = await uploadAndSaveFile(filenameWithoutExt, id, file)
             resolve(fileSavedReady)
           }else{
@@ -150,13 +150,11 @@ export const resolvers = {
           return filesUser.files
         },
         downloadFile: async (_, args)=>{
-          console.log(args)
           const result = await cloudinary.v2.search.expression(`public_id:${args.id}`).execute()
-          const downloadUrl = await cloudinary.v2.utils.download_archive_url({
+          return await cloudinary.v2.utils.download_archive_url({
             public_ids: result.resources[0].public_id,
             resource_type: 'all'
           })
-          return downloadUrl
         }
     },
     Mutation:{
@@ -174,12 +172,18 @@ export const resolvers = {
     },
     updateNameFile: async (_, args)=>{
       const file = await File.findOne({_id: args.idFile})
-      const formats = ['mp4', 'mp3', 'avi', 'wmv', 'mkv', 'jpg', 'png', 'jpeg', 'gif', 'svg']
-      const bool = formats.find(item => item === file.format)
-      if(bool || file.format==='pdf'){
-        const result = await cloudinary.v2.uploader.rename(file.public_id, args.nameFile)
-        return await File.findOneAndUpdate({_id: args.idFile}, {name: args.nameFile, public_id: result.public_id, url: result.url}, {new: true})
-      }else{ 
+      const itsNotRaw = verifyFormat(file.format)
+      if(itsNotRaw || file.format==='pdf'){
+        const formatsVideoAudio = ['mp4', 'mp3', 'avi', 'wmv', 'mkv']
+        const videoOrAudio = formatsVideoAudio.find(item => item === file.format)
+        if(typeof videoOrAudio !== 'undefined'){
+          const result = await cloudinary.v2.uploader.rename(file.public_id, args.nameFile, {resource_type: "video"})
+          return await File.findOneAndUpdate({_id: args.idFile}, {name: args.nameFile, public_id: result.public_id, url: result.url}, {new: true})
+        }else{
+          const result = await cloudinary.v2.uploader.rename(file.public_id, args.nameFile)
+          return await File.findOneAndUpdate({_id: args.idFile}, {name: args.nameFile, public_id: result.public_id, url: result.url}, {new: true})
+        }
+      }else{
         const result = await cloudinary.v2.uploader.rename(file.public_id, args.nameFile, {resource_type: "raw"})
         return await File.findOneAndUpdate({_id: args.idFile}, {name: args.nameFile, public_id: result.public_id, url: result.url}, {new: true})
       }
@@ -228,7 +232,6 @@ export const resolvers = {
     deleteUser: async (_, args)=>{
       const userFound = await User.findOne({_id: args.idUser}).populate('files')
       const userDeleted = await User.findOneAndDelete({_id: userFound._id}).populate('files')
-      console.log(userDeleted)
       userFound.files.forEach(async e => {
         await cloudinary.v2.uploader.destroy(e.public_id)
       });

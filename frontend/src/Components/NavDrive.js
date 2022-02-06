@@ -10,6 +10,7 @@ import { useMutation } from '@apollo/client'
 import { UPLOAD_IMAGE } from '../graphql/mutation'
 
 import { Countdown } from './Countdown'
+import { AlertFileDeleted } from './AlertFileDeleted'
 
 
 export const NavDrive = ()=>{
@@ -23,6 +24,7 @@ export const NavDrive = ()=>{
     if(typeof data!=='undefined'){
 			context.viewDispatch({type: TYPES.NEW_FILE_UPLOADED, payload: data.singleUpload})
       context.viewDispatch({type: TYPES.COUNTDOWN})
+      resetInputFile()
       reset()
 		}
   }, [data])
@@ -45,6 +47,7 @@ export const NavDrive = ()=>{
 
   return(
     <div class="row">
+      { (context.filesViewState.delete_one_file && context.filesViewState.countdown)  && <AlertFileDeleted /> }
       <div class="d-flex justify-content-between my-2">
         <h4 class="">My Drive</h4>
         <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"><FontAwesomeIcon icon={faPlus} className="me-1"/>Upload New File</button>
