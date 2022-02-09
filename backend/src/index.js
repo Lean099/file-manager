@@ -1,5 +1,3 @@
-//import dotenv from 'dotenv'
-//dotenv.config()
 import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
 import { graphqlUploadExpress } from 'graphql-upload';

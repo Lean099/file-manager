@@ -8,9 +8,9 @@ import cloudinary from 'cloudinary'
 import bcrypt from 'bcryptjs'
 
 cloudinary.config({
-    cloud_name: 'lean99',
-    api_key: '721843881581849',
-    api_secret: 'VVgCNgUjFncGbG26pj0wPGEMFGQ'
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
 function getFilePath(pathDir, callback){
@@ -232,10 +232,23 @@ export const resolvers = {
     deleteUser: async (_, args)=>{
       const userFound = await User.findOne({_id: args.idUser}).populate('files')
       const userDeleted = await User.findOneAndDelete({_id: userFound._id}).populate('files')
-      userFound.files.forEach(async e => {
-        await cloudinary.v2.uploader.destroy(e.public_id)
-      });
-      await cloudinary.v2.uploader.destroy(userFound.avatar_public_id)
+      if(userFound.files.length>0){
+        userFound.files.forEach(async e => {
+          const itsNotRaw = verifyFormat(e.format)
+          if(itsNotRaw || e.format === 'pdf'){
+            const formatsVideoAudio = ['mp4', 'mp3', 'avi', 'wmv', 'mkv']
+            const videoOrAudio = formatsVideoAudio.find(item => item === e.format)
+            if(typeof videoOrAudio!=='undefined'){
+              await cloudinary.v2.uploader.destroy(e.public_id, {resource_type: 'video'})
+            }else{
+              await cloudinary.v2.uploader.destroy(e.public_id)
+            }
+          }else{
+            await cloudinary.v2.uploader.destroy(e.public_id, {resource_type: 'raw'})
+          }
+        });
+      }
+      userFound.avatar_public_id!=="" && await cloudinary.v2.uploader.destroy(userFound.avatar_public_id)
       await File.deleteMany({userProperty: userFound._id})
       return "The user has been deleted"
     }

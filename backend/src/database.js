@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 try {
-    mongoose.connect('mongodb+srv://leandev:123@cluster0.n37oe.mongodb.net/fileManager?retryWrites=true&w=majority', {
+    mongoose.connect(process.env.MONGODB_CONNECTION, {
         useUnifiedTopology: true,
         useNewUrlParser: true
     });

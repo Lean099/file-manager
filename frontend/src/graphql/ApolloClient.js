@@ -1,8 +1,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { createUploadLink } from 'apollo-upload-client'
 
-// A este funcion le pasamos la url de nuestro servidor
-const link = createUploadLink({uri: "http://localhost:3001/graphql"})
+const link = createUploadLink({uri: `${process.env.REACT_APP_BACKEND_API_URL}/graphql`})
 
 export const client = new ApolloClient({
   link: link,
