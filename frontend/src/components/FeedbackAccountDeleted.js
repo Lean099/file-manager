@@ -1,6 +1,4 @@
 import { NavLink } from "react-router-dom";
-import { TYPES } from "../actions/viewAction";
-import { Context } from "./FileManager";
 
 export const FeedbackAccountDeleted = ()=>{
 

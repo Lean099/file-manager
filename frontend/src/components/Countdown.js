@@ -15,7 +15,7 @@ export const Countdown = ()=>{
   useEffect(() => {
       setPause(false)
       intervalRef.current = setInterval(decreaseNum, 1000);
-      if(numRef.current==1){
+      if(numRef.current===1){
         clearInterval(intervalRef.current)
         context.viewDispatch({type: TYPES.COUNTDOWN})
         if(context.filesViewState.delete_one_file){

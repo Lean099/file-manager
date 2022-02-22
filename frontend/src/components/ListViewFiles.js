@@ -1,10 +1,6 @@
 import { useContext } from "react";
 import { Context } from "./FileManager";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFileImage,  faTrashAlt, faEye, faDownload, faFileSignature } from '@fortawesome/free-solid-svg-icons'
 import '../table.css';
-import dateformat from "dateformat";
-import { formatBytes } from 'bytes-formatter';
 import { Row } from './Row'
 
 export const ListViewFiles = ()=>{

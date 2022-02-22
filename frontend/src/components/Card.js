@@ -1,7 +1,6 @@
 import { useState, useContext, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFilePdf, faCaretDown, faDownload, faEye, faTrashAlt, faFileSignature, faCheckCircle, faFile } from '@fortawesome/free-solid-svg-icons'
+import { faCaretDown, faDownload, faEye, faTrashAlt, faFileSignature, faCheckCircle, faFile } from '@fortawesome/free-solid-svg-icons'
 import dateformat from "dateformat";
 import { formatBytes } from 'bytes-formatter';
 import { Countdown } from './Countdown'
