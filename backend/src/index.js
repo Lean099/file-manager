@@ -6,7 +6,7 @@ import { resolvers } from './resolvers/resolver'
 import cors from 'cors'
 import './database'
 
-async function main(){
+export async function main(){
 
     const server = new ApolloServer({
         typeDefs: typeDefs,
@@ -29,5 +29,3 @@ async function main(){
 
     console.log(`🚀 Server ready at http://localhost:${app.get('port')}${server.graphqlPath}`);
 }
-
-main()
