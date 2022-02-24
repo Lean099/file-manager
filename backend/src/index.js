@@ -1,3 +1,5 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
 import { graphqlUploadExpress } from 'graphql-upload';
@@ -6,7 +8,7 @@ import { resolvers } from './resolvers/resolver'
 import cors from 'cors'
 import './database'
 
-export async function main(){
+async function main(){
 
     const server = new ApolloServer({
         typeDefs: typeDefs,
@@ -29,3 +31,5 @@ export async function main(){
 
     console.log(`🚀 Server ready at http://localhost:${app.get('port')}${server.graphqlPath}`);
 }
+
+main()
