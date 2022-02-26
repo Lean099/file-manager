@@ -26,7 +26,7 @@ export const SidebarProfile = ()=>{
 
   return(
     <div class="card mt-1" id="side">
-      <img src={ context.filesViewState.avatar!=='' ? context.filesViewState.avatar : "https://res.cloudinary.com/lean99/image/upload/v1639922123/guest_fowp32.png"} class="mx-auto d-block" id="imgProfile"  alt="imgUser"/>
+      <img src={ context.filesViewState.avatar!=='' ? context.filesViewState.avatar : "https://res.cloudinary.com/lean99/image/upload/v1645893281/Portfolio/DefaultPhoto_eyiivp.png"} class="mx-auto d-block" id="imgProfile"  alt="imgUser"/>
       <div class="card-body">
         <h5 class="card-title text-center">{ context.filesViewState.username!=='' ? context.filesViewState.username : "UsernameExample" }</h5>
         <p class="text-center mb-1"><span class="badge bg-info text-dark">{ context.filesViewState.occupation!=='' ? context.filesViewState.occupation : "OccupationExample" }</span></p>
