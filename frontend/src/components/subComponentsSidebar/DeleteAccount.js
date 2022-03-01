@@ -15,7 +15,7 @@ export const DeleteAccount = ()=>{
     useEffect(()=>{
       if(typeof data!=='undefined' && data?.deleteUser==='The user has been deleted'){
         context.viewDispatch({type: TYPES.RESET})
-        logout({returnTo: 'http://localhost:3000/feedbackAccountDeleted'})
+        logout({returnTo: `${process.env.REACT_APP_URL}/feedbackAccountDeleted`})
       }
     }, [data])
 
